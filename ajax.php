@@ -1,4 +1,5 @@
 <?php
+header("Content-Type: application/json");
 $cfg = parse_ini_file("config.ini");
 require_once("includes/database.php");
 
