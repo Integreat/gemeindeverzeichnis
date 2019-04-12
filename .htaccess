@@ -1,6 +1,7 @@
-RewriteCond %{REQUEST_URI} !^index\.html
-RewriteCond %{REQUEST_URI} !\.(gif|jpg|png|js|css)$
-RewriteRule (.*) ajax.php/$1 [L,QSA]
+RewriteEngine On
+RewriteBase /
+RewriteRule ^index\.html$ - [L]
+RewriteRule ^api/(.*)$ ajax.php [L]
 
 <Files config.ini>
         Order Allow,Deny
