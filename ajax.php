@@ -13,7 +13,7 @@ elseif("/api/results" == $_SERVER['REQUEST_URI']) {
 }
 else
 {
-    json_encode(array("error" => "end point not found"));
+    echo json_encode(array("error" => "end point not found"));
 }
 
 ?>
