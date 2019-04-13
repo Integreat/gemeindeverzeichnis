@@ -22,6 +22,7 @@ while($row = $res->fetch_assoc()) {
     $result[$n]['name'] = $row['name'];
     $result[$n]['zip'] = $row['zip'];
     $result[$n]['state'] = $row['state'];
+    $n++;
 }
 
 header("Content-Type: application/json");
