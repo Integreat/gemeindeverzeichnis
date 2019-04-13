@@ -153,41 +153,44 @@ if($argv[1]=="--file") {
         $xml = json_decode($result)[0]->data;
         $p = xml_parser_create();
         xml_parse_into_struct($p, $xml, $vals, $index);
+        $data = array();
         foreach($vals as $item) {
             if($item['level'] == 5 && strlen($item['value']) > 0 ) {
                 if($item['Stand']) {
                     $next_key = "";
-                } elseif($item['Bundesland']) {
+                } elseif($item['value'] == 'Bundesland') {
                     $next_key = "state";
-                } elseif($item['Regierungsbezirk']) {
+                } elseif($item['value'] == 'Regierungsbezirk') {
                     $next_key = "district";
-                } elseif($item['Kreis']) {
+                } elseif($item['value'] == 'Kreis') {
                     $next_key = "county";
-                } elseif($item['Amtl. Gemeindeschlüssel']) {
+                } elseif($item['value'] == 'Amtl. Gemeindeschlüssel') {
                     $next_key = "key";
-                } elseif($item['Gemeindetyp']) {
+                } elseif($item['value'] == 'Gemeindetyp') {
                     $next_key = "type";
-                } elseif($item['Postleitzahl']) {
+                } elseif($item['value'] == 'Postleitzahl') {
                     $next_key = "zip";
-                } elseif($item['Anschrift der Gemeinde']) {
+                } elseif($item['value'] == 'Anschrift der Gemeinde') {
                     $next_key = "address_recipient";
-                } elseif($item['Straße']) {
+                } elseif($item['value'] == 'Straße') {
                     $next_key = "address_street";
-                } elseif($item['Ort']) {
+                } elseif($item['value'] == 'Ort') {
                     $next_key = "address_city";
-                } elseif($item['Fläche in km²']) {
+                } elseif($item['value'] == 'Fläche in km²') {
                     $next_key = "area";
-                } elseif($item['Einwohner']) {
+                } elseif($item['value'] == 'Einwohner') {
                     $next_key = "population";
-                } elseif($item['männlich']) {
+                } elseif($item['value'] == 'männlich') {
                     $next_key = "population_male";
-                } elseif($item['weiblich']) {
+                } elseif($item['value'] == 'weiblich') {
                     $next_key = "population_female";
                 } else {
+                    $data[$next_key] = $item['value'];
                     $next_key = null;
                 }
             }
         }
+        var_dump($data);
     }
 }
 ?>
