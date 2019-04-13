@@ -2,7 +2,7 @@
 $query = "%{$query}%";
 
 if(is_numeric($query)) {
-    $stmt = $conn->prepare("SELECT zip FROM zip_codes WHERE zip LIKE ? AND valid=1 LIMIT 8");
+    $stmt = $conn->prepare("SELECT zip FROM zip_codes WHERE zip LIKE ? LIMIT 8");
     $stmt->bind_param('s', $query);
     $field = "zip";
 }else{
