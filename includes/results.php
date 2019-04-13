@@ -7,7 +7,7 @@ $query = "%{$query}%";
 if(is_numeric($query)) {
     $sql = "SELECT `m`.`key`, `m`.`name`, `z`.`zip`, `m`.`state` FROM `municipalities` `m` LEFT JOIN zip_codes z ON `m`.`key` = `z`.`municipality_key` WHERE `z`.`zip` LIKE ? AND `m`.`valid`=1";
 }else{
-    $sql = "SELECT `key`, `name`, `ps_zip`, `state` FROM `municipalities` WHERE `name` LIKE ? AND valid=1";
+    $sql = "SELECT `key`, `name`, `address_zip`, `state` FROM `municipalities` WHERE `name` LIKE ? AND valid=1";
 }
 
 $stmt = $conn->prepare($sql);
