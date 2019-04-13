@@ -41,8 +41,9 @@ foreach($content as $row) {
         $name = $columns[7];
         $zip = $columns[13];
 
-        $stmt = $conn->prepare("INSERT INTO municipalities (key, name, county, state, valid) VALUES (?, ?, ?, ?, ?)");
-        $stmt->bind_param("ssssi", $rs, $name, $current_county, $current_state, 0);
+        $stmt = $conn->prepare("INSERT INTO `municipalities` (`key`, `name`, `county`, `state`, `website`, `email`, `ps_street`, `ps_zip`, `ps_city`, `timestramp`, `valid`)
+                                VALUES (?, ?, ?, ?, '', '', '', '', '', CURRENT_TIMESTAMP, '0');");
+        $stmt->bind_param("ssss", $rs, $name, $current_county, $current_state);
         if($stmt->execute()) {
             $stmt->close();
             $stmt = $conn->prepare("INSERT INTO zip_codes (key, zip) VALUES (?, ?)");
