@@ -2,7 +2,7 @@
 $cfg = parse_ini_file("config.ini");
 require_once("includes/database.php");
 
-$content = file_get_contents("data-base.csv");
+$content = explode("\n", file_get_contents("data-base.csv"));
 
 /**
  *  1. Satzkennzeichen
@@ -37,12 +37,12 @@ foreach($content as $row) {
         // Nothing to do so far
     }
     elseif($columns[0] == '60') { //Gemeinden
-        $rs = $columns[2] . $columns[3] . $fileds[4] . $columns[5] . $columns[6];
+        $rs = $columns[2] . $columns[3] . $columns[4] . $columns[5] . $columns[6];
         $name = $columns[7];
         $zip = $columns[13];
 
-        $stmt = $conn->prepare("INSERT INTO news (key, name, county, state) VALUES (?, ?, ?, ?)");
-        $stmt->bind_param("sss", $rs, $name, $current_county, $current_state);
+        $stmt = $conn->prepare("INSERT INTO municipalities (key, name, county, state, valid) VALUES (?, ?, ?, ?, ?)");
+        $stmt->bind_param("ssssi", $rs, $name, $current_county, $current_state, 0);
         if($stmt->execute()) {
             $stm2 = $conn->prepare("INSERT INTO zip_codes (key, zip) VALUES (?, ?)");
             $stmt2->bind_param("ss", $rs, $zip);
