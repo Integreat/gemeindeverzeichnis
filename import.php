@@ -2,6 +2,14 @@
 $cfg = parse_ini_file("config.ini");
 require_once("includes/database.php");
 
+$stmt = $conn->prepare("DELETE FROM `municipalities`");
+$stmt->execute();
+$stmt->close();
+
+$stmt = $conn->prepare("DELETE FROM `zip_codes`");
+$stmt->execute();
+$stmt->close();
+
 $content = explode("\n", file_get_contents("data-base.csv"));
 
 /**
@@ -60,11 +68,16 @@ foreach($content as $row) {
         $name = $columns[7];
         $zip = $columns[13];
         $type = $types[(int)$columns[1]];
+        $pop = str_replace(" ", "", $columns[9]);
+        $pop_male = str_replace(" ", "", $columns[10]);
+        $pop_female = str_replace(" ", "", $columns[11]);
+        $longitude = str_replace(",", ".", $columns[14]);
+        $latitude = str_replace(",", ".", $columns[15]);
         $stmt = $conn->prepare("INSERT INTO `municipalities`
         (`key`, `name`, `county`, `state`, `district`, `type`, `population`, `population_male`, `population_female`, `longitude` , `latitude`,   `area`     , `valid`) VALUES
         ( ?   ,  ?    ,  ?      ,  ?     ,  ?        ,  ?    ,  ?          ,  ?               ,  ?                 ,  ?          ,  ?        ,    ?         , '0'    )");
         $stmt->bind_param("ssssssssssss",
-        $rs   ,  $name, $county , $state , $district , $type , $columns[9] , $columns[10]     , $columns[11]       , $columns[14], $columns[15], $columns[8]);
+        $rs   ,  $name, $county , $state , $district , $type , $pop        , $pop_male        , $pop_female        , $longitude  , $latitude, $columns[8]);
         if($stmt->execute()) {
             $stmt->close();
             $stmt = $conn->prepare("INSERT INTO zip_codes (`municipality_key`, `zip`) VALUES (?, ?)");
