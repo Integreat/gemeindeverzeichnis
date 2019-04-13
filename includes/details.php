@@ -19,13 +19,6 @@ while($row = $res_zip->fetch_assoc()) {
     $zip_codes[] = $row['zip'];
 }
 
-`population` int(11) NOT NULL,
-`population_male` int(11) NOT NULL,
-`population_female` int(11) NOT NULL,
-`longitude` double NOT NULL,
-`latitude` double NOT NULL,
-`area` double NOT NULL,
-
 $result = array();
 $n = 0;
 while($row = $res_mun->fetch_assoc()) {
