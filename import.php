@@ -198,6 +198,9 @@ if(in_array('--file', $argv)) {
                 }
             }
         }
+        if(!array_key_exists('state', $data)){
+            continue;
+        }
         $address_zip = substr($data['address_city'], 0, 5);
         $address_city = substr($data['address_city'], 6);
         $data['population'] = str_replace(".", "", $data['population']);
