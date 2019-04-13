@@ -44,17 +44,19 @@ foreach($content as $row) {
         $stmt = $conn->prepare("INSERT INTO municipalities (key, name, county, state, valid) VALUES (?, ?, ?, ?, ?)");
         $stmt->bind_param("ssssi", $rs, $name, $current_county, $current_state, 0);
         if($stmt->execute()) {
-            $stm2 = $conn->prepare("INSERT INTO zip_codes (key, zip) VALUES (?, ?)");
-            $stmt2->bind_param("ss", $rs, $zip);
-            if($stmt2->execute()){
+            $stmt->close();
+            $stmt = $conn->prepare("INSERT INTO zip_codes (key, zip) VALUES (?, ?)");
+            $stmt->bind_param("ss", $rs, $zip);
+            if($stmt->execute()){
                 echo "Stored $rs.\n";
             } else {
                 echo "Failed to store ZIP code for $rs.\n";
             }
+            $stmt->close();
         } else {
-          echo "Failed to store $rs.\n";
+            $stmt->close();
+            echo "Failed to store $rs.\n";
         }
-        $stmt->close();
     }
 }
 
