@@ -46,7 +46,7 @@ foreach($content as $row) {
         $stmt->bind_param("ssss", $rs, $name, $current_county, $current_state);
         if($stmt->execute()) {
             $stmt->close();
-            $stmt = $conn->prepare("INSERT INTO zip_codes (key, zip) VALUES (?, ?)");
+            $stmt = $conn->prepare("INSERT INTO zip_codes (`municipality_key`, `zip`) VALUES (?, ?)");
             $stmt->bind_param("ss", $rs, $zip);
             if($stmt->execute()){
                 echo "Stored $rs.\n";
