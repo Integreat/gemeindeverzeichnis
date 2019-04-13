@@ -156,6 +156,9 @@ if($argv[1]=="--file") {
         xml_parse_into_struct($p, $xml, $vals, $index);
         $data = array();
         foreach($vals as $item) {
+            if(!in_array('value', $item)){
+                continue;
+            }
             $value = trim($item['value']);
             if($item['level'] == 5 && strlen($value) > 0 ) {
                 if($value == 'Stand') {
@@ -199,10 +202,8 @@ if($argv[1]=="--file") {
         $data['population'] = str_replace(" ", "", $data['population']);
         $data['population_male'] = str_replace(" ", "", $data['population_male']);
         $data['population_female'] = str_replace(" ", "", $data['population_female']);
-        $data['longitude'] = str_replace(",", ".", $data['longitude']);
-        $data['latitude'] = str_replace(",", ".", $data['latitude']);
-        $stmt = $conn->prepare("UPDATE `municipalities` SET `county` = ?, `state` = ?, `district` = ?, `type` = ?, `population` = ?, `population_male` = ?, `population_female` = ?, `longitude` = ?, `latitude` = ?, `area` = ?, `address_recipient` = ?, `address_street` = ?, `address_zip` = ?, `address_city` = ?, `valid`=1 WHERE `key` = ?");
-        $stmt->bind_param("ssssssssssssss", $data['county'], $data['state'], $data['district'], $data['type'], $data['population'], $data['population_male'], $data['population_female'], $data['longitude'], $data['latitude'], $data['area'], $data['address_recipient'], $data['address_street'], $data['address_zip'], $data['address_city']);
+        $stmt = $conn->prepare("UPDATE `municipalities` SET `county` = ?, `state` = ?, `district` = ?, `type` = ?, `population` = ?, `population_male` = ?, `population_female` = ?, `area` = ?, `address_recipient` = ?, `address_street` = ?, `address_zip` = ?, `address_city` = ?, `valid`=1 WHERE `key` = ?");
+        $stmt->bind_param("sssssssssssss", $data['county'], $data['state'], $data['district'], $data['type'], $data['population'], $data['population_male'], $data['population_female'], $data['area'], $data['address_recipient'], $data['address_street'], $data['address_zip'], $data['address_city'], $row['key']);
         if($stmt->execute()) {
             echo "Updated ".$row['key']."\n";
         }
