@@ -19,19 +19,38 @@ $content = explode("\n", file_get_contents("data-base.csv"));
  * 12. Bevölkerung - weiblich
  * 13. Bevölkerung - pro km²
  * 14. PLZ
+ * 15. Längengrad
+ * 16. Breitengrad
  * ...
  */
 
-$current_state = '';
-$current_county = '';
+$types = array();
+$types[60] = "Markt";
+$types[61] = "Kreisfreie Stadt";
+$types[62] = "Stadtkreis";
+$types[63] = "Stadt";
+$types[64] = "Kreisangehörige Gemeinde";
+$types[65] = "gemeindefreies Gebiet, bewohnt";
+$types[66] = "gemeindefreies Gebiet, unbewohnt";
+$types[67] = "große Kreisstadt";
+
+$state = '';
+$county = '';
+$district = '';
 
 foreach($content as $row) {
     $columns = explode(";", $row);
     if($columns[0] == '10') { //Bundesland
-        $current_state = $columns[7];
+        $state = $columns[7];
+        $county = '';
+        $district = '';
+    }
+    elseif($columns[0] == '20') { //Regierungsbezirk
+        $district = $columns[7];
+        $county = '';
     }
     elseif($columns[0] == '40') { //Landkreise
-        $current_county = $columns[7];
+        $county = $columns[7];
     }
     elseif($columns[0] == '50') { //Gemeindeverband
         // Nothing to do so far
@@ -40,10 +59,12 @@ foreach($content as $row) {
         $rs = $columns[2] . $columns[3] . $columns[4] . $columns[6];
         $name = $columns[7];
         $zip = $columns[13];
-
-        $stmt = $conn->prepare("INSERT INTO `municipalities` (`key`, `name`, `county`, `state`, `website`, `email`, `ps_street`, `ps_zip`, `ps_city`, `timestramp`, `valid`)
-                                VALUES (?, ?, ?, ?, '', '', '', '', '', CURRENT_TIMESTAMP, '0');");
-        $stmt->bind_param("ssss", $rs, $name, $current_county, $current_state);
+        $type = $types[(int)$columns[1]];
+        $stmt = $conn->prepare("INSERT INTO `municipalities`
+        (`key`, `name`, `county`, `state`, `district`, `type`, `population`, `population_male`, `population_female`, `longitude` , `latitude`,   `area`     , `valid`) VALUES
+        ( ?   ,  ?    ,  ?      ,  ?     ,  ?        ,  ?    ,  ?          ,  ?               ,  ?                 ,  ?          ,  ?        ,    ?         , '0'    )");
+        $stmt->bind_param("ssssssssssss",
+        $rs   ,  $name, $county , $state , $district , $type , $columns[9] , $columns[10]     , $columns[11]       , $columns[14], $columns[15], $columns[8]);
         if($stmt->execute()) {
             $stmt->close();
             $stmt = $conn->prepare("INSERT INTO zip_codes (`municipality_key`, `zip`) VALUES (?, ?)");
@@ -82,10 +103,10 @@ foreach($content as $row) {
 $content = explode("\n", file_get_contents("data-station.csv"));
 foreach($content as $row) {
     $columns = explode(";", $row);
-    $stmt = $conn->prepare("UPDATE `municipalities` SET `ps_name`=?, `ps_street`=?, `ps_zip`=?, `ps_city`=?, `valid`=1 WHERE `key` = ?");
-    $ps_plz = substr($columns[9], 0, 5);
-    $ps_city = substr($columns[9], 6);
-    $stmt->bind_param("sssss",$columns[7], $columns[8], $ps_plz, $ps_city, $columns[4]);
+    $stmt = $conn->prepare("UPDATE `municipalities` SET `address_recipient`=?, `address_street`=?, `address_zip`=?, `address_city`=?, `valid`=1 WHERE `key` = ?");
+    $address_zip = substr($columns[9], 0, 5);
+    $address_city = substr($columns[9], 6);
+    $stmt->bind_param("sssss", $columns[7], $columns[8], $address_zip, $address_city, $columns[4]);
     if($stmt->execute()) {
         echo "Updated $columns[4].\n";
     }

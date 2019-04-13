@@ -26,12 +26,14 @@ while($row = $res_mun->fetch_assoc()) {
     $result[$n]['name'] = $row['name'];
     $result[$n]['zip'] = $zip_codes;
     $result[$n]['state'] = $row['state'];
-    $result[$n]['polling_station']['zip'] = $row['ps_zip'];
-    $result[$n]['polling_station']['website'] = $row['website'];
-    $result[$n]['polling_station']['email'] = $row['email'];
-    $result[$n]['polling_station']['street'] = $row['ps_zip'];
-    $result[$n]['polling_station']['name'] = $row['ps_name'];
-    $result[$n]['polling_station']['city'] = $row['ps_city'];
+    $result[$n]['district'] = $row['district'];
+    $result[$n]['type'] = $row['type'];
+    $result[$n]['address']['zip'] = $row['address_zip'];
+    $result[$n]['address']['website'] = $row['website'];
+    $result[$n]['address']['email'] = $row['email'];
+    $result[$n]['address']['street'] = $row['address_street'];
+    $result[$n]['address']['recipient'] = $row['address_recipient'];
+    $result[$n]['address']['city'] = $row['address_city'];
     $n++;
 }
 
