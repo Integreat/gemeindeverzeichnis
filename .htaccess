@@ -15,7 +15,11 @@ RewriteRule ^api/(.*)$ ajax.php [L]
         Order Allow,Deny
         Deny from all
 </Files>
-<Files data.csv>
+<Files data-base.csv>
+        Order Allow,Deny
+        Deny from all
+</Files>
+<Files data-station.csv>
         Order Allow,Deny
         Deny from all
 </Files>
