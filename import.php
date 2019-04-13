@@ -95,33 +95,63 @@ foreach($content as $row) {
     }
 }
 
-/**
- *  1. Stand
- *  2. Bundesland
- *  3. Regierungs-Bezirk
- *  4. Kreisname
- *  5. Amtl.Gemeindeschlüssel
- *  6. PLZ Gemeindenamen
- *  7. Gemeindetyp
- *  8. Anschrift der Gemeinde
- *  9. Straße
- * 10. PLZ Ort
- * 11. Fläche km2
- * 12. Einwohner gesamt
- * 13. Einwohner männlich
- * 14. Einwohner weiblich
- * 15. Einwohner je km2
- */
-
-$content = explode("\n", file_get_contents("data-station.csv"));
-foreach($content as $row) {
-    $columns = explode(";", $row);
-    $stmt = $conn->prepare("UPDATE `municipalities` SET `address_recipient`=?, `address_street`=?, `address_zip`=?, `address_city`=?, `valid`=1 WHERE `key` = ?");
-    $address_zip = substr($columns[9], 0, 5);
-    $address_city = substr($columns[9], 6);
-    $stmt->bind_param("sssss", $columns[7], $columns[8], $address_zip, $address_city, $columns[4]);
-    if($stmt->execute()) {
-        echo "Updated $columns[4].\n";
+if($argv[1]=="--file") {
+    echo "Updating details from file.\n";
+    /**
+     *  1. Stand
+     *  2. Bundesland
+     *  3. Regierungs-Bezirk
+     *  4. Kreisname
+     *  5. Amtl.Gemeindeschlüssel
+     *  6. PLZ Gemeindenamen
+     *  7. Gemeindetyp
+     *  8. Anschrift der Gemeinde
+     *  9. Straße
+     * 10. PLZ Ort
+     * 11. Fläche km2
+     * 12. Einwohner gesamt
+     * 13. Einwohner männlich
+     * 14. Einwohner weiblich
+     * 15. Einwohner je km2
+     */
+    $content = explode("\n", file_get_contents("data-station.csv"));
+    foreach($content as $row) {
+        $columns = explode(";", $row);
+        $stmt = $conn->prepare("UPDATE `municipalities` SET `address_recipient`=?, `address_street`=?, `address_zip`=?, `address_city`=?, `valid`=1 WHERE `key` = ?");
+        $address_zip = substr($columns[9], 0, 5);
+        $address_city = substr($columns[9], 6);
+        $stmt->bind_param("sssss", $columns[7], $columns[8], $address_zip, $address_city, $columns[4]);
+        if($stmt->execute()) {
+            echo "Updated $columns[4].\n";
+        }
     }
+} else { //Crawl data from destatis
+    echo "Updating details from WWW.\n";
+    /**
+     * curl 'https://www.statistikportal.de/de/produkte/gemeindeverzeichnis?ajax_form=1&_wrapper_format=drupal_ajax' \
+     * -H 'Accept: application/json' -H 'Application/x-www-form-urlencoded; charset=UTF-8' \
+     * --data 'mi_search=01051064&form_id=municipality_index_search'
+     */
+    $stmt = $conn->prepare("SELECT `key` FROM `municipalities` LIMIT 1");
+    $stmt->execute();
+    $res = $stmt->get_result();
+    while($row = $res->fetch_assoc()) {
+        $headers = array (
+            'Accept: application/json',
+            'Application/x-www-form-urlencoded; charset=UTF-8'
+        );
+        $fields = "mi_search=".$row['key']."&form_id=municipality_index_search";
+        $ch = curl_init ();
+        curl_setopt ( $ch, CURLOPT_URL, $url );
+        curl_setopt ( $ch, CURLOPT_POST, true );
+        curl_setopt ( $ch, CURLOPT_HTTPHEADER, $headers );
+        curl_setopt ( $ch, CURLOPT_RETURNTRANSFER, true );
+        curl_setopt ( $ch, CURLOPT_POSTFIELDS, $fields );
+        $result = curl_exec ( $ch );
+        curl_close ( $ch );
+        var_dump(json_decode( $result ));
+    }
+
+
 }
 ?>
