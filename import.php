@@ -151,41 +151,43 @@ if($argv[1]=="--file") {
         $result = curl_exec ( $ch );
         curl_close ( $ch );
         $xml = json_decode($result)[0]->data;
+        $xml = preg_replace('/\s+/', ' ',$xml);
         $p = xml_parser_create();
         xml_parse_into_struct($p, $xml, $vals, $index);
         $data = array();
         foreach($vals as $item) {
-            if($item['level'] == 5 && strlen($item['value']) > 0 ) {
-                if($item['Stand']) {
+            $value = trim($item['value']);
+            if($item['level'] == 5 && strlen() > 0 ) {
+                if($value == 'Stand') {
                     $next_key = "";
-                } elseif($item['value'] == 'Bundesland') {
+                } elseif($value == 'Bundesland') {
                     $next_key = "state";
-                } elseif($item['value'] == 'Regierungsbezirk') {
+                } elseif($value == 'Regierungsbezirk') {
                     $next_key = "district";
-                } elseif($item['value'] == 'Kreis') {
+                } elseif($value == 'Kreis') {
                     $next_key = "county";
-                } elseif($item['value'] == 'Amtl. Gemeindeschlüssel') {
+                } elseif($value == 'Amtl. Gemeindeschlüssel') {
                     $next_key = "key";
-                } elseif($item['value'] == 'Gemeindetyp') {
+                } elseif($value == 'Gemeindetyp') {
                     $next_key = "type";
-                } elseif($item['value'] == 'Postleitzahl') {
+                } elseif($value == 'Postleitzahl') {
                     $next_key = "zip";
-                } elseif($item['value'] == 'Anschrift der Gemeinde') {
+                } elseif($value == 'Anschrift der Gemeinde') {
                     $next_key = "address_recipient";
-                } elseif($item['value'] == 'Straße') {
+                } elseif($value == 'Straße') {
                     $next_key = "address_street";
-                } elseif($item['value'] == 'Ort') {
+                } elseif($value == 'Ort') {
                     $next_key = "address_city";
-                } elseif($item['value'] == 'Fläche in km²') {
+                } elseif($value == 'Fläche in km²') {
                     $next_key = "area";
-                } elseif($item['value'] == 'Einwohner') {
+                } elseif($value == 'Einwohner') {
                     $next_key = "population";
-                } elseif($item['value'] == 'männlich') {
+                } elseif($value == 'männlich') {
                     $next_key = "population_male";
-                } elseif($item['value'] == 'weiblich') {
+                } elseif($value == 'weiblich') {
                     $next_key = "population_female";
                 } else {
-                    $data[$next_key] = $item['value'];
+                    $data[$next_key] = $value;
                     $next_key = null;
                 }
             }
