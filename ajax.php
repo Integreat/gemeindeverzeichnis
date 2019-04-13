@@ -3,7 +3,8 @@ header("Content-Type: application/json");
 $cfg = parse_ini_file("config.ini");
 require_once("includes/database.php");
 
-$route = explode("/", $_SERVER['REQUEST_URI']);
+$route = trim($_SERVER['REQUEST_URI'], "/");
+$route = explode("/", $route);
 
 if(isset($route[2])) {
     $query = $route[2];
