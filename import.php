@@ -37,7 +37,7 @@ foreach($content as $row) {
         // Nothing to do so far
     }
     elseif($columns[0] == '60') { //Gemeinden
-        $rs = $columns[2] . $columns[3] . $columns[4] . $columns[5] . $columns[6];
+        $rs = $columns[2] . $columns[3] . $columns[4] . $columns[6];
         $name = $columns[7];
         $zip = $columns[13];
 
@@ -82,8 +82,10 @@ foreach($content as $row) {
 $content = explode("\n", file_get_contents("data-station.csv"));
 foreach($content as $row) {
     $columns = explode(";", $row);
-    $stmt = $conn->prepare("UPDATE `municipalities` SET `ps_name`=?, `ps_street`=?, `ps_zip`=?, `ps_city`=?, `timestramp`, `valid`=1) WHERE `key` = ?");
-    $stmt->bind_param("sssss", $columns[7], $columns[8], $columns[9], $columns[4]);
+    $stmt = $conn->prepare("UPDATE `municipalities` SET `ps_name`=?, `ps_street`=?, `ps_zip`=?, `ps_city`=?, `valid`=1 WHERE `key` = ?");
+    $ps_plz = substr($columns[9], 0, 5);
+    $ps_city = substr($columns[9], 6);
+    $stmt->bind_param("sssss",$columns[7], $columns[8], $ps_plz, $ps_city, $columns[4]);
     if($stmt->execute()) {
         echo "Updated $columns[4].\n";
     }
