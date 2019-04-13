@@ -200,9 +200,10 @@ if(in_array('--file', $argv)) {
         }
         $address_zip = substr($data['address_city'], 0, 5);
         $address_city = substr($data['address_city'], 6);
-        $data['population'] = str_replace(" ", "", $data['population']);
-        $data['population_male'] = str_replace(" ", "", $data['population_male']);
-        $data['population_female'] = str_replace(" ", "", $data['population_female']);
+        $data['population'] = str_replace(".", "", $data['population']);
+        $data['population_male'] = str_replace(".", "", $data['population_male']);
+        $data['population_female'] = str_replace(".", "", $data['population_female']);
+        $data['area'] = str_replace(",", ".", $data['area']);
         $stmt = $conn->prepare("UPDATE `municipalities` SET `county` = ?, `state` = ?, `district` = ?, `type` = ?, `population` = ?, `population_male` = ?, `population_female` = ?, `area` = ?, `address_recipient` = ?, `address_street` = ?, `address_zip` = ?, `address_city` = ?, `valid`=1 WHERE `key` = ?");
         $stmt->bind_param("sssssssssssss", $data['county'], $data['state'], $data['district'], $data['type'], $data['population'], $data['population_male'], $data['population_female'], $data['area'], $data['address_recipient'], $data['address_street'], $address_zip, $address_city, $row['key']);
         if($stmt->execute()) {
