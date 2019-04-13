@@ -41,7 +41,7 @@ CREATE TABLE `municipalities` (
   `area` double NOT NULL,
   `website` text NOT NULL,
   `email` text NOT NULL,
-  `address_recipient` int(11) NOT NULL,
+  `address_recipient` text NOT NULL,
   `address_street` text NOT NULL,
   `address_zip` text NOT NULL,
   `address_city` text NOT NULL,
