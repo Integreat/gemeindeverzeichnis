@@ -6,11 +6,13 @@ $stmt = $conn->prepare("SELECT * FROM `municipalities` WHERE `key`=? AND valid=1
 $stmt->bind_param('s', $query);
 $stmt->execute();
 $res_mun = $stmt->get_result();
+$stmt->close();
 
 $stmt = $conn->prepare("SELECT `zip` FROM `zip_codes` WHERE `municipality_key`=?");
 $stmt->bind_param('s', $query);
 $stmt->execute();
 $res_zip = $stmt->get_result();
+$stmt->close();
 
 $zip_codes = array();
 while($row = $res_zip->fetch_assoc()) {
