@@ -1,7 +1,4 @@
 <?php
-$content = file_get_contents('php://input');
-$query = json_decode($content)[0];
-
 $stmt = $conn->prepare("SELECT * FROM `municipalities` WHERE `key`=? AND valid=1 ORDER BY `timestamp` DESC LIMIT 1");
 $stmt->bind_param('s', $query);
 $stmt->execute();

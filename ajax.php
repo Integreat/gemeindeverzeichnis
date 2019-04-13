@@ -3,14 +3,23 @@ header("Content-Type: application/json");
 $cfg = parse_ini_file("config.ini");
 require_once("includes/database.php");
 
-if("/api/quicksearch/" == $_SERVER['REQUEST_URI']) {
+$route = explode("/", $_SERVER['REQUEST_URI']);
+
+if(isset($route[2])) {
+    $query = $route[2];
+} else {
+    $content = file_get_contents('php://input');
+    $query = json_decode($content)[0];
+}
+
+if($route[0] == 'api' && $route[1] == 'quicksearch') {
     require_once("includes/quicksearch.php");
 }
-elseif("/api/details/" == $_SERVER['REQUEST_URI']) {
+elseif($route[0] == 'api' && $route[1] == 'details') {
     require_once("includes/details.php");
 }
-elseif("/api/results/" == $_SERVER['REQUEST_URI']) {
-    require_once("includes/results.php");
+elseif($route[0] == 'api' && $route[1] == 'search') {
+    require_once("includes/search.php");
 }
 else
 {

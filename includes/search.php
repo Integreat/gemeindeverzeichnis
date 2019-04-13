@@ -1,6 +1,4 @@
 <?php
-$content = file_get_contents('php://input');
-$query = json_decode($content)[0];
 $query = "%{$query}%";
 
 
