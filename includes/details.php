@@ -19,6 +19,13 @@ while($row = $res_zip->fetch_assoc()) {
     $zip_codes[] = $row['zip'];
 }
 
+`population` int(11) NOT NULL,
+`population_male` int(11) NOT NULL,
+`population_female` int(11) NOT NULL,
+`longitude` double NOT NULL,
+`latitude` double NOT NULL,
+`area` double NOT NULL,
+
 $result = array();
 $n = 0;
 while($row = $res_mun->fetch_assoc()) {
@@ -28,6 +35,12 @@ while($row = $res_mun->fetch_assoc()) {
     $result[$n]['state'] = $row['state'];
     $result[$n]['district'] = $row['district'];
     $result[$n]['type'] = $row['type'];
+    $result[$n]['population'] = $row['population'];
+    $result[$n]['population_male'] = $row['population_male'];
+    $result[$n]['population_female'] = $row['population_female'];
+    $result[$n]['longitude'] = $row['longitude'];
+    $result[$n]['latitude'] = $row['latitude'];
+    $result[$n]['area'] = $row['area'];
     $result[$n]['address']['zip'] = $row['address_zip'];
     $result[$n]['address']['website'] = $row['website'];
     $result[$n]['address']['email'] = $row['email'];
