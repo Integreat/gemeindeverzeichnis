@@ -83,8 +83,9 @@ $content = explode("\n", file_get_contents("data-station.csv"));
 foreach($content as $row) {
     $columns = explode(";", $row);
     $stmt = $conn->prepare("UPDATE `municipalities` SET `ps_name`=?, `ps_street`=?, `ps_zip`=?, `ps_city`=?, `timestramp`, `valid`=1) WHERE `key` = ?");
-$stmt->bind_param("sssss", $columns[7], $columns[8], $columns[9], $columns[4]);
-if($stmt->execute()) {
-    echo "Updated $columns[4].\n";
+    $stmt->bind_param("sssss", $columns[7], $columns[8], $columns[9], $columns[4]);
+    if($stmt->execute()) {
+        echo "Updated $columns[4].\n";
+    }
 }
 ?>
