@@ -141,6 +141,7 @@ if($argv[1]=="--file") {
             'Application/x-www-form-urlencoded; charset=UTF-8'
         );
         $fields = "mi_search=".$row['key']."&form_id=municipality_index_search";
+        $url = "https://www.statistikportal.de/de/produkte/gemeindeverzeichnis?ajax_form=1&_wrapper_format=drupal_ajax";
         $ch = curl_init ();
         curl_setopt ( $ch, CURLOPT_URL, $url );
         curl_setopt ( $ch, CURLOPT_POST, true );
@@ -149,9 +150,44 @@ if($argv[1]=="--file") {
         curl_setopt ( $ch, CURLOPT_POSTFIELDS, $fields );
         $result = curl_exec ( $ch );
         curl_close ( $ch );
-        var_dump(json_decode( $result ));
+        $xml = json_decode($result)[0]->data;
+        $p = xml_parser_create();
+        xml_parse_into_struct($p, $xml, $vals, $index);
+        foreach($vals as $item) {
+            if($item['level'] == 5 && strlen($item['value']) > 0 ) {
+                if($item['Stand']) {
+                    $next_key = "";
+                } elseif($item['Bundesland']) {
+                    $next_key = "state";
+                } elseif($item['Regierungsbezirk']) {
+                    $next_key = "district";
+                } elseif($item['Kreis']) {
+                    $next_key = "county";
+                } elseif($item['Amtl. Gemeindeschlüssel']) {
+                    $next_key = "key";
+                } elseif($item['Gemeindetyp']) {
+                    $next_key = "type";
+                } elseif($item['Postleitzahl']) {
+                    $next_key = "zip";
+                } elseif($item['Anschrift der Gemeinde']) {
+                    $next_key = "address_recipient";
+                } elseif($item['Straße']) {
+                    $next_key = "address_street";
+                } elseif($item['Ort']) {
+                    $next_key = "address_city";
+                } elseif($item['Fläche in km²']) {
+                    $next_key = "area";
+                } elseif($item['Einwohner']) {
+                    $next_key = "population";
+                } elseif($item['männlich']) {
+                    $next_key = "population_male";
+                } elseif($item['weiblich']) {
+                    $next_key = "population_female";
+                } else {
+                    $next_key = null;
+                }
+            }
+        }
     }
-
-
 }
 ?>
