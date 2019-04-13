@@ -20,7 +20,7 @@ $n = 0;
 while($row = $res->fetch_assoc()) {
     $result[$n]['key'] = $row['key'];
     $result[$n]['name'] = $row['name'];
-    $result[$n]['zip'] = $row['zip'];
+    $result[$n]['zip'] = $row['ps_zip'];
     $result[$n]['state'] = $row['state'];
     $n++;
 }
