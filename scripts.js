@@ -6,16 +6,11 @@ $('#searchtext').keypress(function (e) {
 });
 function evalUrl () {
     var parts = window.location.pathname.split("/");
-    console.log(parts);
     if(parts[2] == "search") {
-        console.log("Action: search.")
         search(parts[3]);
     }else if(parts[2] == "details"){
-        console.log("Action: details");
         details(parts[3]);
-    }else{
-        console.log("No action.");
-    }
+    }else{}
 };
 $(document).ready(function() {
     $("#searchbutton").click(function(){
@@ -32,7 +27,6 @@ function setUrl(action, key) {
 };
 
 function search( term ) {
-    console.log("Searching for "+term);
     $.get("/api/search/"+term, function(data, status){
         var searchhtml;
         searchhtml = "<ul>";
@@ -47,7 +41,6 @@ function details( key ) {
     $.get("/api/details/"+key, function(data, status){
         var searchhtml;
         searchhtml = "<ul>";
-        console.log(data);
         for (item of data) {
             searchhtml = searchhtml + "<li><h2>"+item['name']+"</h2></li>" +
             "<li>Regierungsbezirk: "+item['district']+"</li>" +
