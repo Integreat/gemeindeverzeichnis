@@ -29,7 +29,7 @@ function setUrl(action, key) {
 function search( term ) {
     $.get("/api/search/"+term, function(data, status){
         var searchhtml;
-        searchhtml = "<h4 class='text-center'>Ergebnisse</h4><table class='table table-striped' style='width=100%;max-width:600px;'>";
+        searchhtml = "<h4 class='text-center'>Ergebnisse</h4><table class='table table-striped'>";
         searchhtml = searchhtml + "<thead><tr><th scope='col'>Ort</th><th>PLZ</th><th>Land</th><th>Link</th></tr></thead>";
         for (item of data) {
             searchhtml = searchhtml + "<tr><td>"+item['name']+"</td><td>"+item['zip']+"</td><td>"+item['state']+"</td><td><a href='/ui/details/"+item['key']+"'>Details</a></td></tr>";
@@ -41,7 +41,7 @@ function search( term ) {
 function details( key ) {
     $.get("/api/details/"+key, function(data, status){
         var searchhtml;
-        searchhtml = "<table class='table table-striped' style='width=100%;max-width:600px;'>";
+        searchhtml = "<table class='table table-striped'>";
         for (item of data) {
             searchhtml = searchhtml + "<thead><tr><th scope='col' colspan='2'><h4 class='text-center'>"+item['name']+"</h4></th></tr></thead>" +
             "<tr><th scope='row'>Regierungsbezirk</th><td>"+item['district']+"</td></tr>" +
