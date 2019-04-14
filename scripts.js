@@ -42,7 +42,7 @@ function details( key ) {
         var searchhtml;
         searchhtml = '<table class="table table-striped">';
         for (item of data) {
-            searchhtml = searchhtml + "<thead><tr><th scope='col' colspan='2'>"+item['name']+"</th></tr></thead>" +
+            searchhtml = searchhtml + "<thead><tr><th scope='col' colspan='2'><h4 class='text-center'>"+item['name']+"</h4></th></tr></thead>" +
             "<tr><th scope='row'>Regierungsbezirk</th><td>"+item['district']+"</td></tr>" +
             "<tr><th scope='row'>Bundesland</th><td>"+item['state']+"</td></tr>" +
             "<tr><th scope='row'>Landkreis</th><td>"+item['county']+"</td></tr>" +
