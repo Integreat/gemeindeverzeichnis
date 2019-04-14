@@ -2,8 +2,8 @@ Header set Access-Control-Allow-Origin "*"
 
 RewriteEngine On
 RewriteBase /
-RewriteRule ^index\.html$ - [L]
 RewriteRule ^api/(.*)$ ajax.php [L]
+RewriteRule ^ui/(.*)$ index.html [L]
 
 <Files config.ini>
         Order Allow,Deny
