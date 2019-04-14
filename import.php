@@ -156,6 +156,8 @@ if(in_array('--file', $argv)) {
         $p = xml_parser_create();
         xml_parse_into_struct($p, $xml, $vals, $index);
         $data = array();
+        $multiple_results = false;
+        $update_first = false;
         foreach($vals as $item) {
             if(!array_key_exists('value', $item)){
                 continue;
@@ -164,6 +166,11 @@ if(in_array('--file', $argv)) {
             if($item['level'] == 5 && strlen($value) > 0 ) {
                 if($value == 'Stand') {
                     $next_key = "updated";
+                    if($update_first == false) {
+                        $update_first = true;
+                    } else {
+                        $multiple_results = true;
+                    }
                 } elseif($value == 'Bundesland') {
                     $next_key = "state";
                 } elseif($value == 'Regierungsbezirk') {
@@ -201,8 +208,15 @@ if(in_array('--file', $argv)) {
         if(!array_key_exists('state', $data)){
             continue;
         }
-        $address_zip = substr($data['address_city'], 0, 5);
-        $address_city = substr($data['address_city'], 6);
+        if($multiple_results) {
+            $data['address_recipient'] = "";
+            $data['address_street'] = "";
+            $address_zip = "";
+            $address_city = "";
+        } else {
+            $address_zip = substr($data['address_city'], 0, 5);
+            $address_city = substr($data['address_city'], 6);
+        }
         $data['population'] = str_replace(".", "", $data['population']);
         $data['population_male'] = str_replace(".", "", $data['population_male']);
         $data['population_female'] = str_replace(".", "", $data['population_female']);
