@@ -29,9 +29,9 @@ function setUrl(action, key) {
 function search( term ) {
     $.get("/api/search/"+term, function(data, status){
         var searchhtml;
-        searchhtml = "<ul>";
+        searchhtml = "<table class='table table-striped'>";
         for (item of data) {
-            searchhtml = searchhtml + "<li>"+item['name']+" ("+item['zip']+")<br>"+item['state']+" <a href='/ui/details/"+item['key']+"'>Details</a></li>";
+            searchhtml = searchhtml + "<tr><td>"+item['name']+"</td><td>"+item['zip']+"</td><td>"+item['state']+"</td><td><a href='/ui/details/"+item['key']+"'>Details</a></td></tr>";
         };
         searchhtml = searchhtml + "</ul>";
         $("#result").html(searchhtml);
@@ -40,7 +40,7 @@ function search( term ) {
 function details( key ) {
     $.get("/api/details/"+key, function(data, status){
         var searchhtml;
-        searchhtml = '<table class="table table-striped">';
+        searchhtml = "<table class='table table-striped'>";
         for (item of data) {
             searchhtml = searchhtml + "<thead><tr><th scope='col' colspan='2'><h4 class='text-center'>"+item['name']+"</h4></th></tr></thead>" +
             "<tr><th scope='row'>Regierungsbezirk</th><td>"+item['district']+"</td></tr>" +
