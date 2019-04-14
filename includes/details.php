@@ -24,6 +24,7 @@ while($row = $res_mun->fetch_assoc()) {
     $result[$n]['zip_codes'] = $zip_codes;
     $result[$n]['state'] = $row['state'];
     $result[$n]['district'] = $row['district'];
+    $result[$n]['county'] = $row['county'];
     $result[$n]['type'] = $row['type'];
     $result[$n]['population'] = $row['population'];
     $result[$n]['population_male'] = $row['population_male'];
