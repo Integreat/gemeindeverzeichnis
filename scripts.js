@@ -40,18 +40,19 @@ function search( term ) {
 function details( key ) {
     $.get("/api/details/"+key, function(data, status){
         var searchhtml;
-        searchhtml = "<ul>";
+        searchhtml = "<div class='container'>";
         for (item of data) {
-            searchhtml = searchhtml + "<li><h2>"+item['name']+"</h2></li>" +
-            "<li>Regierungsbezirk: "+item['district']+"</li>" +
-            "<li>Bundesland: "+item['state']+"</li>" +
-            "<li>Landkreis: "+item['county']+"</li>" +
-            "<li>Gemeindetyp: "+item['type']+"</li>" +
-            "<li>Anschrift: "+item['address']['recipient']+", "+item['address']['street']+", "+item['address']['zip']+" "+item['address']['city']+"</li>" +
-            "<li>L&auml;ngengrad, Breitengrad: "+item['longitude']+", "+item['latitude']+"</li>" +
-            "<li>Bevölkerung: "+item['population']+"</li>";
+            searchhtml = searchhtml + "<div class='row'><div class='col'>"+item['name']+"</div></div>" +
+            "<div class='row'><div class='col'>Regierungsbezirk</div><div class='col'>"+item['district']+"</div></div>" +
+            "<div class='row'><div class='col'>Bundesland</div><div class='col'>"+item['state']+"</div></div>" +
+            "<div class='row'><div class='col'>Landkreis</div><div class='col'>"+item['county']+"</div></div>" +
+            "<div class='row'><div class='col'>Gemeindetyp</div><div class='col'>"+item['type']+"</div></div>" +
+            "<div class='row'><div class='col'>Anschrift</div><div class='col'>"+item['address']['recipient']+", "+item['address']['street']+", "+item['address']['zip']+" "+item['address']['city']+"</div></div>" +
+            "<div class='row'><div class='col'>L&auml;ngengrad</div><div class='col'>"+item['longitude']+"</div></div>" +
+            "<div class='row'><div class='col'>Breitengrad</div><div class='col'>"+item['latitude']+"</div></div>" +
+            "<div class='row'><div class='col'>Bevölkerung</div><div class='col'>"+item['population']+"</div></div>";
         };
-        searchhtml = searchhtml + "</ul>";
+        searchhtml = searchhtml + "</div>";
         $("#result").html(searchhtml);
     });
 }
