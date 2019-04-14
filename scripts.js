@@ -44,6 +44,7 @@ function details( key ) {
         searchhtml = "<table class='table table-striped' style='width:100%;'>";
         for (item of data) {
             searchhtml = searchhtml + "<thead><tr><th scope='col' colspan='2'><h4 class='text-center'>"+item['name']+"</h4></th></tr></thead>" +
+            "<tr><th scope='row'>Gemeindeschl&uuml;ssel</th><td>"+item['key']+"</td></tr>" +
             "<tr><th scope='row'>Regierungsbezirk</th><td>"+item['district']+"</td></tr>" +
             "<tr><th scope='row'>Bundesland</th><td>"+item['state']+"</td></tr>" +
             "<tr><th scope='row'>Landkreis</th><td>"+item['county']+"</td></tr>" +
