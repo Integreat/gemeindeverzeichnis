@@ -1,7 +1,7 @@
 <?php
 $query = "%{$query}%";
 
-$sql = "SELECT `key`, `name`, `address_zip`, `state` FROM `municipalities` WHERE `county` LIKE ? AND valid=1";
+$sql = "SELECT `key`, `name`, `address_zip`, `county`, `state` FROM `municipalities` WHERE `county` LIKE ? AND valid=1";
 
 $stmt = $conn->prepare($sql);
 $stmt->bind_param('s', $query);

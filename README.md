@@ -44,14 +44,14 @@ curl https://gvz.integreat-app.de/api/quicksearch/Wangen
 ````
 
 ## Search by county
-A minimalistic search is also available. This is intended to make suggestions for completion of zip codes or city names.
+Search by county name
 ````
 curl --header "Content-Type: application/json" \
 --request POST \
---data '["Wangen"]' \
-https://gvz.integreat-app.de/api/quicksearch/
+--data '["Ravensburg"]' \
+https://gvz.integreat-app.de/api/searchcounty/
 ````
 or
 ````
-curl https://gvz.integreat-app.de/api/quicksearch/Wangen
+curl https://gvz.integreat-app.de/api/searchcounty/Ravensburg
 ````
