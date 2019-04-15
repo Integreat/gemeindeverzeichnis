@@ -3,7 +3,7 @@ $cfg = parse_ini_file("config.ini");
 require_once("includes/database.php");
 
 if(in_array('--base', $argv)) {
-    require_once("includes/import-base.php")
+    require_once("includes/import-base.php");
 }
 
 if(in_array('--file', $argv)) {
