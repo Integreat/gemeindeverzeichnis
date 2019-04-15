@@ -6,7 +6,7 @@ Due to our desire for Open Data, we create a machine readable API to the Gemeind
 ## Details view
 This requires the "Gemeindeschlüssel".
 ````
-curl --header "Content-Type: application/json" \ :(
+curl --header "Content-Type: application/json" \
 --request POST \
 --data '["09362000"]' \
 "https://gvz.integreat-app.de/api/details/"
