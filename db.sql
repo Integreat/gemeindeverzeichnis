@@ -26,7 +26,7 @@ SET time_zone = "+00:00";
 -- Table structure for table `municipalities`
 --
 
-CREATE TABLE `municipalities` (
+CREATE TABLE `municipalities_core` (
   `key` varchar(20) NOT NULL,
   `name` text NOT NULL,
   `county` text NOT NULL,
@@ -40,14 +40,69 @@ CREATE TABLE `municipalities` (
   `longitude` double NOT NULL,
   `latitude` double NOT NULL,
   `area` double NOT NULL,
-  `website` text NOT NULL,
-  `email` text NOT NULL,
-  `address_recipient` text NOT NULL,
-  `address_street` text NOT NULL,
-  `address_zip` text NOT NULL,
-  `address_city` text NOT NULL,
-  `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `valid` tinyint(1) NOT NULL DEFAULT '0'
+  `address_recipient` text NULL,
+  `address_street` text NULL,
+  `address_zip` text NULL,
+  `address_city` text NULL,
+  `website` text NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `municipalities_crawler`
+--
+
+CREATE TABLE `municipalities_crawler` (
+  `key` varchar(20) NOT NULL,
+  `email` text NULL,
+  `timestamp` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `municipalities_human`
+--
+
+CREATE TABLE `municipalities_human` (
+  `key` varchar(20) NOT NULL,
+  `email` text NULL,
+  `valid` tinyint(1) NOT NULL DEFAULT '0',
+  `timestamp` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `polling_station_crawler`
+--
+
+CREATE TABLE `polling_station_crawler` (
+  `key` varchar(20) NOT NULL,
+  `name` text NULL,
+  `address_street` text NULL,
+  `address_zip` text NULL,
+  `address_city` text NULL,
+  `opening_hours` text NULL,
+  `timestamp` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `polling_station_human`
+--
+
+CREATE TABLE `polling_station_human` (
+  `key` varchar(20) NOT NULL,
+  `name` text NULL,
+  `address_street` text NULL,
+  `address_zip` text NULL,
+  `address_city` text NULL,
+  `opening_hours` text NULL,
+  `valid` tinyint(1) NOT NULL DEFAULT '0',
+  `timestamp` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -60,6 +115,70 @@ CREATE TABLE `zip_codes` (
   `municipality_key` varchar(20) NOT NULL,
   `zip` varchar(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `municipalities_core`
+--
+ALTER TABLE `municipalities_core`
+  ADD PRIMARY KEY (`key`),
+  ADD KEY `key` (`key`);
+
+--
+-- Indexes for table `municipalities_crawler`
+--
+ALTER TABLE `municipalities_crawler`
+  ADD KEY `municipalities_crawler_key` (`key`);
+
+--
+-- Indexes for table `municipalities_human`
+--
+ALTER TABLE `municipalities_human`
+  ADD KEY `municipalities_human_key` (`key`);
+
+--
+-- Indexes for table `zip_codes`
+--
+ALTER TABLE `zip_codes`
+  ADD KEY `zip_codes_key` (`municipality_key`);
+
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `municipalities_crawler`
+--
+ALTER TABLE `municipalities_crawler`
+  ADD CONSTRAINT `municipalities_crawler_key` FOREIGN KEY (`key`) REFERENCES `municipalities_core` (`key`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `municipalities_human`
+--
+ALTER TABLE `municipalities_human`
+  ADD CONSTRAINT `municipalities_human_key` FOREIGN KEY (`key`) REFERENCES `municipalities_core` (`key`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `polling_station_human`
+--
+ALTER TABLE `polling_station_human`
+  ADD CONSTRAINT `polling_station_human_key` FOREIGN KEY (`key`) REFERENCES `municipalities_core` (`key`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `polling_station_crawler`
+--
+ALTER TABLE `polling_station_crawler`
+  ADD CONSTRAINT `polling_station_crawler_key` FOREIGN KEY (`key`) REFERENCES `municipalities_core` (`key`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `zip_codes`
+--
+ALTER TABLE `zip_codes`
+  ADD CONSTRAINT `zip_codes_key` FOREIGN KEY (`municipality_key`) REFERENCES `municipalities_core` (`key`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
