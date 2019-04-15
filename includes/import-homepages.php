@@ -9,7 +9,8 @@ if (($handle = fopen("data-homepages.csv", "r")) !== FALSE) {
         echo "Searching for ".$columns[0]."\n";
         $key = "";
         $stmt = $conn->prepare("SELECT `key` FROM `municipalities` WHERE `address_zip`=?");
-        $stmt->bind_param('s',substr($columns[2],0,5));
+        $zip = substr($columns[2],0,5);
+        $stmt->bind_param('s',$zip);
         $stmt->execute();
         $result = $stmt->get_result();
         if($result->num_rows == 1) {
