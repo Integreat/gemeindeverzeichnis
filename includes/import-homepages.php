@@ -25,7 +25,7 @@ foreach($content as $row) {
         $stmt->bind_param('s', $search);
         $stmt->execute();
         $result = $stmt->get_result();
-        if($stmt->num_rows == 1) {
+        if($result->num_rows == 1) {
             $key = $result->fetch_assoc()['key'];
         }
         $stmt->close();
