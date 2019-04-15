@@ -50,6 +50,8 @@ function details( key ) {
             "<tr><th scope='row'>Landkreis</th><td>"+item['county']+"</td></tr>" +
             "<tr><th scope='row'>Gemeindetyp</th><td>"+item['type']+"</td></tr>" +
             "<tr><th scope='row'>Anschrift</th><td>"+item['address']['recipient']+"<br>"+item['address']['street']+"<br>"+item['address']['zip']+" "+item['address']['city']+"</td></tr>" +
+            "<tr><th scope='row'>Homepage</th><td>"+item['address']['website']+"</td></tr>" +
+            "<tr><th scope='row'>E-Mail</th><td>"+item['address']['email']+"</td></tr>" +
             "<tr><th scope='row'>L&auml;ngengrad</th><td>"+item['longitude']+"</td></tr>" +
             "<tr><th scope='row'>Breitengrad</th><td>"+item['latitude']+"</td></tr>" +
             "<tr><th scope='row'>Bevölkerung</th><td>"+item['population']+"</td></tr>";
