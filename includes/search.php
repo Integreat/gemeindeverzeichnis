@@ -19,6 +19,7 @@ while($row = $res->fetch_assoc()) {
     $result[$n]['key'] = $row['key'];
     $result[$n]['name'] = $row['name'];
     $result[$n]['zip'] = $row['address_zip'];
+    $result[$n]['county'] = $row['county'];
     $result[$n]['state'] = $row['state'];
     $n++;
 }

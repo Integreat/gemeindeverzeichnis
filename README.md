@@ -42,3 +42,16 @@ or
 ````
 curl https://gvz.integreat-app.de/api/quicksearch/Wangen
 ````
+
+## Search by county
+A minimalistic search is also available. This is intended to make suggestions for completion of zip codes or city names.
+````
+curl --header "Content-Type: application/json" \
+--request POST \
+--data '["Wangen"]' \
+https://gvz.integreat-app.de/api/quicksearch/
+````
+or
+````
+curl https://gvz.integreat-app.de/api/quicksearch/Wangen
+````
