@@ -22,6 +22,9 @@ elseif($route[0] == 'api' && $route[1] == 'details') {
 elseif($route[0] == 'api' && $route[1] == 'search') {
     require_once("includes/search.php");
 }
+elseif($route[0] == 'api' && $route[1] == 'searchcounty') {
+    require_once("includes/searchcounty.php");
+}
 else
 {
     echo json_encode(array("error" => "end point not found"));
