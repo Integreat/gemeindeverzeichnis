@@ -1,5 +1,15 @@
 <?php
-
+/**
+ * Import data from Wikidata query:
+ * SELECT DISTINCT ?itemLabel ?website ?zip
+ * WHERE {
+ * ?item wdt:P31/wdt:P279* wd:Q262166
+ * OPTIONAL { ?item wdt:P856 ?website }
+ * OPTIONAL { ?item wdt:P281 ?zip }
+ * SERVICE wikibase:label { bd:serviceParam wikibase:language "de" }
+ * }
+ * ORDER BY ?itemLabel
+ */
 if (($handle = fopen("data-homepages.csv", "r")) !== FALSE) {
     while (($columns = fgetcsv($handle, 1000, ",", '"')) !== FALSE) {
         $row++;
