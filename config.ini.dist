@@ -1,7 +1,7 @@
 basepath = /
 
 [sql]
-user = myuser
+user = root
 database = briefwahl
 password = mypassword
 host = localhost
