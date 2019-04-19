@@ -1,4 +1,10 @@
 <?php
+
+use Integreat\Gemeindeverzeichnis\Container;
+use Integreat\Gemeindeverzeichnis\DatabaseConnection;
+
+$conn = Container::getInstance()->get(DatabaseConnection::class);
+
 $query = "%{$query}%";
 
 $sql = "SELECT `key`, `name`, `address_zip`, `county`, `state` FROM `municipalities` WHERE `county` LIKE ? AND valid=1";
@@ -21,4 +27,3 @@ while($row = $res->fetch_assoc()) {
 
 header("Content-Type: application/json");
 echo json_encode($result);
-?>

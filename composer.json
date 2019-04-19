@@ -1,0 +1,20 @@
+{
+    "name": "integreat/gemeindeverzeichnis",
+    "description": "Open Data project for informations about german municipalities",
+    "type": "project",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Integreat\\Gemeindeverzeichnis\\": "src/"
+        }
+    },
+    "require": {
+        "php": ">=7.1",
+        "ext-mysqli": "*",
+        "ext-json": "*",
+        "ext-curl": "*",
+        "psr/container": "^1.0",
+        "psr/log": "^1.1",
+        "symfony/console": "^4.2"
+    }
+}

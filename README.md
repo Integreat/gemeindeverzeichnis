@@ -1,6 +1,20 @@
 # Gemeindeverzeichnis
 Due to our desire for Open Data, we create a machine readable API to the Gemeindeverzeichnis of the Statistisches Bundesamt (https://www.destatis.de/DE/Themen/Laender-Regionen/Regionales/Gemeindeverzeichnis/_inhalt.html).
 
+# Installation
+
+This project is using [composer](https://getcomposer.org/). Install composer and run:
+
+```
+php composer.phar install
+```
+
+# Run imports
+
+1. Place the files `data-base.csv`, `data-homepages.csv` and  `data-station.csv` in the root directory of this project.
+2. Run `php bin/console import`
+
+
 # CURL examples
 
 ## Details view
