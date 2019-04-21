@@ -20,7 +20,13 @@ echo "Updating details from file.\n";
 $content = explode("\n", file_get_contents("data-station.csv"));
 foreach($content as $row) {
     $columns = explode(";", $row);
-    $stmt = $conn->prepare("UPDATE `municipalities` SET `address_recipient`=?, `address_street`=?, `address_zip`=?, `address_city`=?, `valid`=1 WHERE `key` = ?");
+
+    if (!isset($columns[9])) {
+        echo "No City identifier found.\n";
+        continue;
+    }
+
+    $stmt = $conn->prepare("UPDATE `municipalities_core` SET `address_recipient`=?, `address_street`=?, `address_zip`=?, `address_city`=? WHERE `key` = ?");
     $address_zip = substr($columns[9], 0, 5);
     $address_city = substr($columns[9], 6);
     $stmt->bind_param("sssss", $columns[7], $columns[8], $address_zip, $address_city, $columns[4]);
@@ -28,4 +34,3 @@ foreach($content as $row) {
         echo "Updated $columns[4].\n";
     }
 }
-?>

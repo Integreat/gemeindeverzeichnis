@@ -1,12 +1,4 @@
 <?php
-$stmt = $conn->prepare("DELETE FROM `municipalities`");
-$stmt->execute();
-$stmt->close();
-
-$stmt = $conn->prepare("DELETE FROM `zip_codes`");
-$stmt->execute();
-$stmt->close();
-
 $content = explode("\n", file_get_contents("data-base.csv"));
 
 /**
@@ -61,23 +53,33 @@ foreach($content as $row) {
         // Nothing to do so far
     }
     elseif($columns[0] == '60') { //Gemeinden
+        $type_code = $columns[0];
         $rs = $columns[2] . $columns[3] . $columns[4] . $columns[6];
         $name = $columns[7];
         $zip = $columns[13];
         $type = $types[(int)$columns[1]];
         $pop = str_replace(" ", "", $columns[9]);
+        if (!is_numeric($pop)) {
+            $pop = null;
+        }
         $pop_male = str_replace(" ", "", $columns[10]);
+        if (!is_numeric($pop_male)) {
+            $pop_male = null;
+        }
         $pop_female = str_replace(" ", "", $columns[11]);
+        if (!is_numeric($pop_female)) {
+            $pop_female = null;
+        }
         $longitude = str_replace(",", ".", $columns[14]);
         $latitude = str_replace(",", ".", $columns[15]);
-        $stmt = $conn->prepare("INSERT INTO `municipalities`
-        (`key`, `name`, `county`, `state`, `district`, `type`, `population`, `population_male`, `population_female`, `longitude` , `latitude`,   `area`     , `valid`) VALUES
-        ( ?   ,  ?    ,  ?      ,  ?     ,  ?        ,  ?    ,  ?          ,  ?               ,  ?                 ,  ?          ,  ?        ,    ?         , '0'    )");
-        $stmt->bind_param("ssssssssssss",
-        $rs   ,  $name, $county , $state , $district , $type , $pop        , $pop_male        , $pop_female        , $longitude  , $latitude, $columns[8]);
+        $stmt = $conn->prepare("REPLACE INTO `municipalities_core`
+        (`key`, `name`, `county`, `state`, `district`, `type`, `type_code`, `population`, `population_male`, `population_female`, `longitude` , `latitude`,   `area`     ) VALUES
+        ( ?   ,  ?    ,  ?      ,  ?     ,  ?        ,  ?    ,  ?         ,  ?          ,  ?               ,  ?                 ,  ?          ,  ?        ,    ?         )");
+        $stmt->bind_param("sssssssssssss",
+        $rs   ,  $name, $county , $state , $district , $type , $type_code, $pop        , $pop_male        , $pop_female        , $longitude  , $latitude, $columns[8]);
         if($stmt->execute()) {
             $stmt->close();
-            $stmt = $conn->prepare("INSERT INTO zip_codes (`municipality_key`, `zip`) VALUES (?, ?)");
+            $stmt = $conn->prepare("REPLACE INTO zip_codes (`municipality_key`, `zip`) VALUES (?, ?)");
             $stmt->bind_param("ss", $rs, $zip);
             if($stmt->execute()){
                 echo "Stored $rs.\n";
@@ -86,9 +88,8 @@ foreach($content as $row) {
             }
             $stmt->close();
         } else {
+            echo "Failed to store $rs. (".$stmt->error.")\n";
             $stmt->close();
-            echo "Failed to store $rs.\n";
         }
     }
 }
-?>

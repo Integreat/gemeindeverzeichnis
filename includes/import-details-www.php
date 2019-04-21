@@ -5,7 +5,7 @@ echo "Updating details from WWW.\n";
  * -H 'Accept: application/json' -H 'Application/x-www-form-urlencoded; charset=UTF-8' \
  * --data 'mi_search=01051064&form_id=municipality_index_search'
  */
-$stmt = $conn->prepare("SELECT `key` FROM `municipalities`");
+$stmt = $conn->prepare("SELECT `key` FROM `municipalities_core`");
 $stmt->execute();
 $res = $stmt->get_result();
 while($row = $res->fetch_assoc()) {
@@ -15,6 +15,9 @@ while($row = $res->fetch_assoc()) {
     );
     $fields = "mi_search=".$row['key']."&form_id=municipality_index_search";
     $url = "https://www.statistikportal.de/de/produkte/gemeindeverzeichnis?ajax_form=1&_wrapper_format=drupal_ajax";
+
+    echo "Update with search ".$row['key']."\n";
+
     $ch = curl_init ();
     curl_setopt ( $ch, CURLOPT_URL, $url );
     curl_setopt ( $ch, CURLOPT_POST, true );
@@ -93,7 +96,7 @@ while($row = $res->fetch_assoc()) {
     $data['population_male'] = str_replace(".", "", $data['population_male']);
     $data['population_female'] = str_replace(".", "", $data['population_female']);
     $data['area'] = str_replace(",", ".", $data['area']);
-    $stmt = $conn->prepare("UPDATE `municipalities` SET `county` = ?, `state` = ?, `district` = ?, `type` = ?, `population` = ?, `population_male` = ?, `population_female` = ?, `area` = ?, `address_recipient` = ?, `address_street` = ?, `address_zip` = ?, `address_city` = ?, `valid`=1 WHERE `key` = ?");
+    $stmt = $conn->prepare("UPDATE `municipalities_core` SET `county` = ?, `state` = ?, `district` = ?, `type` = ?, `population` = ?, `population_male` = ?, `population_female` = ?, `area` = ?, `address_recipient` = ?, `address_street` = ?, `address_zip` = ?, `address_city` = ? WHERE `key` = ?");
     $stmt->bind_param("sssssssssssss", $data['county'], $data['state'], $data['district'], $data['type'], $data['population'], $data['population_male'], $data['population_female'], $data['area'], $data['address_recipient'], $data['address_street'], $address_zip, $address_city, $row['key']);
     if($stmt->execute()) {
         echo "Updated ".$row['key']."\n";

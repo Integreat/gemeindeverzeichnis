@@ -34,16 +34,16 @@ CREATE TABLE `municipalities_core` (
   `district` text NOT NULL,
   `type` enum('Markt','Kreisfreie Stadt','Stadtkreis','Stadt','Kreisangehörige Gemeinde','gemeindefreies Gebiet, bewohnt','gemeindefreies Gebiet, unbewohnt','große Kreisstadt','Landkreis','Kreis') NOT NULL,
   `type_code` int(2) NOT NULL,
-  `population` int(11) NOT NULL,
-  `population_male` int(11) NOT NULL,
-  `population_female` int(11) NOT NULL,
+  `population` int(11) NULL,
+  `population_male` int(11) NULL,
+  `population_female` int(11) NULL,
   `longitude` double NOT NULL,
   `latitude` double NOT NULL,
   `area` double NOT NULL,
-  `address_recipient` text,
-  `address_street` text,
-  `address_zip` text,
-  `address_city` text
+  `address_recipient` text NULL DEFAULT NULL,
+  `address_street` text NULL DEFAULT NULL,
+  `address_zip` text NULL DEFAULT NULL,
+  `address_city` text NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -54,10 +54,10 @@ CREATE TABLE `municipalities_core` (
 
 CREATE TABLE `web_info_crawler` (
   `key` varchar(20) NOT NULL,
-  `email_default` text,
-  `website_default` text,
-  `email_poll` text,
-  `website_poll` text,
+  `email_default` text NULL DEFAULT NULL,
+  `website_default` text NULL DEFAULT NULL,
+  `email_poll` text NULL DEFAULT NULL,
+  `website_poll` text NULL DEFAULT NULL,
   `timestamp` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -69,10 +69,10 @@ CREATE TABLE `web_info_crawler` (
 
 CREATE TABLE `web_info_human` (
   `key` varchar(20) NOT NULL,
-  `email_default` text,
-  `website_default` text,
-  `email_poll` text,
-  `website_poll` text,
+  `email_default` text NULL DEFAULT NULL,
+  `website_default` text NULL DEFAULT NULL,
+  `email_poll` text NULL DEFAULT NULL,
+  `website_poll` text NULL DEFAULT NULL,
   `timestamp` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -85,11 +85,11 @@ CREATE TABLE `web_info_human` (
 CREATE TABLE `polling_station_crawler` (
   `key` varchar(20) NOT NULL,
   `slug` varchar(100) NOT NULL,
-  `name` text,
-  `address_street` text,
-  `address_zip` text,
-  `address_city` text,
-  `opening_hours` text,
+  `name` text NULL DEFAULT NULL,
+  `address_street` text NULL DEFAULT NULL,
+  `address_zip` text NULL DEFAULT NULL,
+  `address_city` text NULL DEFAULT NULL,
+  `opening_hours` text NULL DEFAULT NULL,
   `timestamp` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -102,11 +102,11 @@ CREATE TABLE `polling_station_crawler` (
 CREATE TABLE `polling_station_human` (
   `key` varchar(20) NOT NULL,
   `slug` varchar(100) NOT NULL,
-  `name` text,
-  `address_street` text,
-  `address_zip` text,
-  `address_city` text,
-  `opening_hours` text,
+  `name` text NULL DEFAULT NULL,
+  `address_street` text NULL DEFAULT NULL,
+  `address_zip` text NULL DEFAULT NULL,
+  `address_city` text NULL DEFAULT NULL,
+  `opening_hours` text NULL DEFAULT NULL,
   `valid` tinyint(1) NOT NULL DEFAULT '0',
   `timestamp` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -119,17 +119,17 @@ CREATE TABLE `polling_station_human` (
 
 CREATE TABLE `polling_station_web_queue` (
   `key` varchar(20) NOT NULL,
+  `municipality_key` varchar(20),
   `slug` text,
-  `name` text,
-  `address_street` text,
-  `address_zip` text,
-  `address_city` text,
-  `opening_hours` text,
-  `email_default` text,
-  `website_default` text,
-  `email_poll` text,
-  `website_poll` text,
-  `opening_hours` text,
+  `name` text NULL DEFAULT NULL,
+  `address_street` text NULL DEFAULT NULL,
+  `address_zip` text NULL DEFAULT NULL,
+  `address_city` text NULL DEFAULT NULL,
+  `opening_hours` text NULL DEFAULT NULL,
+  `email_default` text NULL DEFAULT NULL,
+  `website_default` text NULL DEFAULT NULL,
+  `email_poll` text NULL DEFAULT NULL,
+  `website_poll` text NULL DEFAULT NULL,
   `timestamp` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -157,13 +157,13 @@ ALTER TABLE `municipalities_core`
 --
 -- Indexes for table `municipalities_crawler`
 --
-ALTER TABLE `municipalities_crawler`
+ALTER TABLE `web_info_crawler`
   ADD PRIMARY KEY (`key`);
 
 --
 -- Indexes for table `municipalities_human`
 --
-ALTER TABLE `municipalities_human`
+ALTER TABLE `web_info_human`
   ADD PRIMARY KEY (`key`);
 
 --
