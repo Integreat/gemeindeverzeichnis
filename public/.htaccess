@@ -14,7 +14,11 @@ Header set Access-Control-Allow-Origin "*"
     # Handle Front Controller...
     RewriteCond %{REQUEST_FILENAME} !-d
     RewriteCond %{REQUEST_FILENAME} !-f
-    RewriteRule ^ controller.php [L]
+    RewriteRule ^api/(.*) controller.php [L]
+
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteRule ^ index.html [L]
 
     # Handle Authorization Header
     RewriteCond %{HTTP:Authorization}
