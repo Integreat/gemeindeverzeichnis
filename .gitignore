@@ -1,0 +1,6 @@
+/config/config.ini
+/vendor
+/composer.phar
+/data-base.csv
+/data-homepages.csv
+/data-station.csv

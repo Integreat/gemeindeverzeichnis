@@ -1,6 +1,11 @@
 <?php
-$query = "%{$query}%";
 
+use Integreat\Gemeindeverzeichnis\Container;
+use Integreat\Gemeindeverzeichnis\DatabaseConnection;
+
+$conn = Container::getInstance()->get(DatabaseConnection::class);
+
+$query = "%{$query}%";
 
 if(is_numeric($query)) {
     $sql = "SELECT `m`.`key`, `m`.`name`, `z`.`zip`, `m`.`county`, `m`.`state` FROM `municipalities` `m` LEFT JOIN zip_codes z ON `m`.`key` = `z`.`municipality_key` WHERE `z`.`zip` LIKE ? AND `m`.`valid`=1";
@@ -26,4 +31,3 @@ while($row = $res->fetch_assoc()) {
 
 header("Content-Type: application/json");
 echo json_encode($result);
-?>

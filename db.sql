@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Apr 13, 2019 at 05:59 PM
+-- Generation Time: Apr 15, 2019 at 10:51 PM
 -- Server version: 10.1.38-MariaDB-0ubuntu0.18.04.1
 -- PHP Version: 7.2.15-0ubuntu0.18.04.2
 
@@ -23,10 +23,10 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Table structure for table `municipalities`
+-- Table structure for table `municipalities_core`
 --
 
-CREATE TABLE `municipalities` (
+CREATE TABLE `municipalities_core` (
   `key` varchar(20) NOT NULL,
   `name` text NOT NULL,
   `county` text NOT NULL,
@@ -34,20 +34,103 @@ CREATE TABLE `municipalities` (
   `district` text NOT NULL,
   `type` enum('Markt','Kreisfreie Stadt','Stadtkreis','Stadt','Kreisangehörige Gemeinde','gemeindefreies Gebiet, bewohnt','gemeindefreies Gebiet, unbewohnt','große Kreisstadt','Landkreis','Kreis') NOT NULL,
   `type_code` int(2) NOT NULL,
-  `population` int(11) NOT NULL,
-  `population_male` int(11) NOT NULL,
-  `population_female` int(11) NOT NULL,
+  `population` int(11) NULL,
+  `population_male` int(11) NULL,
+  `population_female` int(11) NULL,
   `longitude` double NOT NULL,
   `latitude` double NOT NULL,
   `area` double NOT NULL,
-  `website` text NOT NULL,
-  `email` text NOT NULL,
-  `address_recipient` text NOT NULL,
-  `address_street` text NOT NULL,
-  `address_zip` text NOT NULL,
-  `address_city` text NOT NULL,
-  `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `valid` tinyint(1) NOT NULL DEFAULT '0'
+  `address_recipient` text NULL DEFAULT NULL,
+  `address_street` text NULL DEFAULT NULL,
+  `address_zip` text NULL DEFAULT NULL,
+  `address_city` text NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `web_info_crawler`
+--
+
+CREATE TABLE `web_info_crawler` (
+  `key` varchar(20) NOT NULL,
+  `email_default` text NULL DEFAULT NULL,
+  `website_default` text NULL DEFAULT NULL,
+  `email_poll` text NULL DEFAULT NULL,
+  `website_poll` text NULL DEFAULT NULL,
+  `timestamp` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `web_info_human`
+--
+
+CREATE TABLE `web_info_human` (
+  `key` varchar(20) NOT NULL,
+  `email_default` text NULL DEFAULT NULL,
+  `website_default` text NULL DEFAULT NULL,
+  `email_poll` text NULL DEFAULT NULL,
+  `website_poll` text NULL DEFAULT NULL,
+  `timestamp` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `polling_station_crawler`
+--
+
+CREATE TABLE `polling_station_crawler` (
+  `key` varchar(20) NOT NULL,
+  `slug` varchar(100) NOT NULL,
+  `name` text NULL DEFAULT NULL,
+  `address_street` text NULL DEFAULT NULL,
+  `address_zip` text NULL DEFAULT NULL,
+  `address_city` text NULL DEFAULT NULL,
+  `opening_hours` text NULL DEFAULT NULL,
+  `timestamp` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `polling_station_human`
+--
+
+CREATE TABLE `polling_station_human` (
+  `key` varchar(20) NOT NULL,
+  `slug` varchar(100) NOT NULL,
+  `name` text NULL DEFAULT NULL,
+  `address_street` text NULL DEFAULT NULL,
+  `address_zip` text NULL DEFAULT NULL,
+  `address_city` text NULL DEFAULT NULL,
+  `opening_hours` text NULL DEFAULT NULL,
+  `valid` tinyint(1) NOT NULL DEFAULT '0',
+  `timestamp` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `polling_station_web_queue`
+--
+
+CREATE TABLE `polling_station_web_queue` (
+  `key` varchar(20) NOT NULL,
+  `municipality_key` varchar(20),
+  `slug` text,
+  `name` text NULL DEFAULT NULL,
+  `address_street` text NULL DEFAULT NULL,
+  `address_zip` text NULL DEFAULT NULL,
+  `address_city` text NULL DEFAULT NULL,
+  `opening_hours` text NULL DEFAULT NULL,
+  `email_default` text NULL DEFAULT NULL,
+  `website_default` text NULL DEFAULT NULL,
+  `email_poll` text NULL DEFAULT NULL,
+  `website_poll` text NULL DEFAULT NULL,
+  `timestamp` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -60,6 +143,86 @@ CREATE TABLE `zip_codes` (
   `municipality_key` varchar(20) NOT NULL,
   `zip` varchar(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `municipalities_core`
+--
+ALTER TABLE `municipalities_core`
+  ADD PRIMARY KEY (`key`);
+
+--
+-- Indexes for table `municipalities_crawler`
+--
+ALTER TABLE `web_info_crawler`
+  ADD PRIMARY KEY (`key`);
+
+--
+-- Indexes for table `municipalities_human`
+--
+ALTER TABLE `web_info_human`
+  ADD PRIMARY KEY (`key`);
+
+--
+-- Indexes for table `polling_station_crawler`
+--
+ALTER TABLE `polling_station_crawler`
+  ADD PRIMARY KEY (`key`,`slug`);
+
+--
+-- Indexes for table `polling_station_human`
+--
+ALTER TABLE `polling_station_human`
+  ADD PRIMARY KEY (`key`,`slug`);
+
+--
+-- Indexes for table `zip_codes`
+--
+ALTER TABLE `zip_codes`
+  ADD PRIMARY KEY (`municipality_key`);
+
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `web_info_crawler`
+--
+ALTER TABLE `web_info_crawler`
+  ADD CONSTRAINT `web_info_crawler_key` FOREIGN KEY (`key`) REFERENCES `municipalities_core` (`key`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `web_info_human`
+--
+ALTER TABLE `web_info_human`
+  ADD CONSTRAINT `web_info_human_key` FOREIGN KEY (`key`) REFERENCES `municipalities_core` (`key`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `polling_station_crawler`
+--
+ALTER TABLE `polling_station_crawler`
+  ADD CONSTRAINT `polling_station_crawler_key` FOREIGN KEY (`key`) REFERENCES `municipalities_core` (`key`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `polling_station_human`
+--
+ALTER TABLE `polling_station_human`
+  ADD CONSTRAINT `polling_station_human_key` FOREIGN KEY (`key`) REFERENCES `municipalities_core` (`key`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `zip_codes`
+--
+ALTER TABLE `zip_codes`
+  ADD CONSTRAINT `zip_codes_key` FOREIGN KEY (`municipality_key`) REFERENCES `municipalities_core` (`key`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `polling_station_web_queue`
+--
+ALTER TABLE `polling_station_web_queue`
+  ADD CONSTRAINT `polling_station_web_queue_key` FOREIGN KEY (`municipality_key`) REFERENCES `municipalities_core` (`key`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

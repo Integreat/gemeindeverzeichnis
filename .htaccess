@@ -1,27 +1,10 @@
-Header set Access-Control-Allow-Origin "*"
+<IfModule mod_rewrite.c>
+    <IfModule mod_negotiation.c>
+        Options -MultiViews
+    </IfModule>
 
-RewriteEngine On
-RewriteBase /
-RewriteRule ^api/(.*)$ ajax.php [L]
-RewriteRule ^ui/(.*)$ index.html [L]
+    RewriteEngine On
 
-<Files config.ini>
-        Order Allow,Deny
-        Deny from all
-</Files>
-<Files db.sql>
-        Order Allow,Deny
-        Deny from all
-</Files>
-<Files import.php>
-        Order Allow,Deny
-        Deny from all
-</Files>
-<Files data-base.csv>
-        Order Allow,Deny
-        Deny from all
-</Files>
-<Files data-station.csv>
-        Order Allow,Deny
-        Deny from all
-</Files>
+    # Redirect All Requests To The Subfolder
+    RewriteRule ^ /public
+</IfModule>

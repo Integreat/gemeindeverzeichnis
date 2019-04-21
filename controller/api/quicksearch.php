@@ -1,4 +1,10 @@
 <?php
+
+use Integreat\Gemeindeverzeichnis\Container;
+use Integreat\Gemeindeverzeichnis\DatabaseConnection;
+
+$conn = Container::getInstance()->get(DatabaseConnection::class);
+
 $query = "%{$query}%";
 
 if(is_numeric($query)) {
@@ -20,4 +26,3 @@ while($row = $res->fetch_assoc()) {
 
 header("Content-Type: application/json");
 echo json_encode($result);
-?>

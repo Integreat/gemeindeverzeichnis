@@ -1,4 +1,10 @@
 <?php
+
+use Integreat\Gemeindeverzeichnis\Container;
+use Integreat\Gemeindeverzeichnis\DatabaseConnection;
+
+$conn = Container::getInstance()->get(DatabaseConnection::class);
+
 $stmt = $conn->prepare("SELECT * FROM `municipalities` WHERE `key`=? AND valid=1 ORDER BY `timestamp` DESC LIMIT 1");
 $stmt->bind_param('s', $query);
 $stmt->execute();
@@ -43,4 +49,3 @@ while($row = $res_mun->fetch_assoc()) {
 
 header("Content-Type: application/json");
 echo json_encode($result);
-?>
