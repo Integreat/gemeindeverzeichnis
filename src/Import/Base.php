@@ -95,7 +95,7 @@ class Base implements ImportInterface, LoggerAwareInterface
             } elseif ($columns[0] == '50') { //Gemeindeverband
                 // Nothing to do so far
             } elseif ($columns[0] == '60') { //Gemeinden
-                $type_code = $columns[0];
+                $type_code = $columns[1];
                 $rs = $columns[2] . $columns[3] . $columns[4] . $columns[6];
                 $name = $columns[7];
                 $zip = $columns[13];
