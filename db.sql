@@ -119,7 +119,6 @@ CREATE TABLE `polling_station_human` (
 
 CREATE TABLE `polling_station_web_queue` (
   `key` varchar(20) NOT NULL,
-  `municipality_key` varchar(20),
   `slug` text,
   `name` text NULL DEFAULT NULL,
   `address_street` text NULL DEFAULT NULL,
@@ -222,7 +221,7 @@ ALTER TABLE `zip_codes`
 -- Constraints for table `polling_station_web_queue`
 --
 ALTER TABLE `polling_station_web_queue`
-  ADD CONSTRAINT `polling_station_web_queue_key` FOREIGN KEY (`municipality_key`) REFERENCES `municipalities_core` (`key`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `polling_station_web_queue_key` FOREIGN KEY (`key`) REFERENCES `municipalities_core` (`key`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

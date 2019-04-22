@@ -9,6 +9,9 @@ return $services = [
     \Psr\Log\LoggerInterface::class => function(ContainerInterface $container) {
         return $container->get(Gemeindeverzeichnis\Logger::class);
     },
+    Gemeindeverzeichnis\Config::class => function(ContainerInterface $container) use ($config) {
+        return $config;
+    },
     Gemeindeverzeichnis\Logger::class => function(ContainerInterface $container) use ($config) {
         return new Gemeindeverzeichnis\Logger();
     },
