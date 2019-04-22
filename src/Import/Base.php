@@ -103,7 +103,7 @@ class Base implements ImportInterface, LoggerAwareInterface
                 $stmt = $conn->prepare("INSERT INTO `municipalities_core`
                 (`key`, `name`, `county`, `state`, `district`, `type`, `type_code`) VALUES
                 ( ?   ,  ?    ,  ?      ,  ?     ,  ?        ,  ?    ,  ?         )");
-                $stmt->bind_param("ssssssss",
+                $stmt->bind_param("sssssss",
                 $rs   ,  $name, $county , $state , $district , $type , $columns[1]);
             } elseif ($columns[0] == '50') { //Gemeindeverband
                 // Nothing to do so far
