@@ -5,7 +5,7 @@ use Integreat\Gemeindeverzeichnis\DatabaseConnection;
 
 $conn = Container::getInstance()->get(DatabaseConnection::class);
 
-$stmt = $conn->prepare("SELECT * FROM `municipalities` WHERE `key`=? AND valid=1 ORDER BY `timestamp` DESC LIMIT 1");
+$stmt = $conn->prepare("SELECT * FROM `municipalities` WHERE `key`=? LIMIT 1");
 $stmt->bind_param('s', $query);
 $stmt->execute();
 $res_mun = $stmt->get_result();
