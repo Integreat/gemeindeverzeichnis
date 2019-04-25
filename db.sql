@@ -119,7 +119,6 @@ CREATE TABLE `polling_station_human` (
 
 CREATE TABLE `polling_station_web_queue` (
   `key` varchar(20) NOT NULL,
-  `municipality_key` varchar(20),
   `slug` text,
   `name` text NULL DEFAULT NULL,
   `address_street` text NULL DEFAULT NULL,
@@ -222,8 +221,22 @@ ALTER TABLE `zip_codes`
 -- Constraints for table `polling_station_web_queue`
 --
 ALTER TABLE `polling_station_web_queue`
-  ADD CONSTRAINT `polling_station_web_queue_key` FOREIGN KEY (`municipality_key`) REFERENCES `municipalities_core` (`key`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `polling_station_web_queue_key` FOREIGN KEY (`key`) REFERENCES `municipalities_core` (`key`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+
+CREATE VIEW web_info AS
+  SELECT `key`, `email_default`, `website_default`, `email_poll`, `website_poll` FROM web_info_human
+  UNION
+  SELECT `key`, `email_default`, `website_default`, `email_poll`, `website_poll` FROM web_info_crawler WHERE `key` NOT IN (SELECT `key` FROM web_info_human);
+
+CREATE VIEW municipalities AS SELECT c.*, w.`email_default`, w.`website_default`, w.`email_poll`, w.`website_poll` FROM municipalities_core c LEFT JOIN web_info w ON c.`key`=w.`key`;
+
+CREATE VIEW polling_stations AS
+  SELECT `key`, `slug`, `name`, `address_street`, `address_zip`, `address_city`, `opening_hours` FROM polling_station_human
+    WHERE `valid`=1
+  UNION
+  SELECT `key`, `slug`, `name`, `address_street`, `address_zip`, `address_city`, `opening_hours` FROM polling_station_crawler WHERE
+    (`key`, `slug`) NOT IN (SELECT `key`, `slug` FROM polling_station_human WHERE `valid`=1);

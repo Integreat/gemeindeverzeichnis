@@ -5,12 +5,12 @@ use Integreat\Gemeindeverzeichnis\DatabaseConnection;
 
 $conn = Container::getInstance()->get(DatabaseConnection::class);
 
-$query = "%{$query}%";
-
 if(is_numeric($query)) {
-    $sql = "SELECT `m`.`key`, `m`.`name`, `z`.`zip`, `m`.`county`, `m`.`state` FROM `municipalities` `m` LEFT JOIN zip_codes z ON `m`.`key` = `z`.`municipality_key` WHERE `z`.`zip` LIKE ? AND `m`.`valid`=1";
+    $query = "%{$query}%";
+    $sql = "SELECT `m`.`key`, `m`.`name`, `m`.`address_zip`, `z`.`zip` AS `search_zip`, `m`.`county`, `m`.`state` FROM `municipalities` `m` LEFT JOIN zip_codes z ON `m`.`key` = `z`.`municipality_key` WHERE `z`.`zip` LIKE ?";
 }else{
-    $sql = "SELECT `key`, `name`, `address_zip`, `state`, `county` FROM `municipalities` WHERE `name` LIKE ? AND valid=1";
+    $query = "%{$query}%";
+    $sql = "SELECT `key`, `name`, `address_zip`, `state`, `county` FROM `municipalities` WHERE `name` LIKE ?";
 }
 
 $stmt = $conn->prepare($sql);

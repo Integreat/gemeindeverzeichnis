@@ -16,7 +16,7 @@ if(isset($route[2])) {
 
 if($route[0] == 'api') {
     $path = dirname(__DIR__) . '/controller/api/' . $route[1] . '.php';
-    if (ctype_alpha(preg_match("/^[a-zA-Z0-9]+$/", $route[1]) && file_exists($path))) {
+    if (preg_match("/^[a-zA-Z0-9]+$/", $route[1]) && file_exists($path)) {
         require $path;
         return;
     }

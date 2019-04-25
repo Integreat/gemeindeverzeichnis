@@ -11,7 +11,7 @@ php composer.phar install
 
 # Run imports
 
-1. Place the files `data-base.csv`, `data-homepages.csv` and  `data-station.csv` in the root directory of this project.
+1. Place the files `data-base.cs`, `data-homepages.csv` and  `data-station.csv` in the root directory of this project.
 2. Run `php bin/console import`
 
 
@@ -68,4 +68,12 @@ https://gvz.integreat-app.de/api/searchcounty/
 or
 ````
 curl https://gvz.integreat-app.de/api/searchcounty/Ravensburg
+````
+
+## Submit data
+```
+curl --header "Content-Type: application/json" \
+--request POST \
+--data '{"key": "", "slug": "", "address_street": "", "address_zip": "", "address_city": "", "opening_hours": "", "email_default": "", "website_default": "", "email_poll": "", "website_poll": ""}' \
+"https://gvz.integreat-app.de/api/update"
 ````
