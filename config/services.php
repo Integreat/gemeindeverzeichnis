@@ -41,6 +41,13 @@ return $services = [
         $import->setLogger($container->get(\Psr\Log\LoggerInterface::class));
         return $import;
     },
+    Gemeindeverzeichnis\Import\ZipCodes::class => function(ContainerInterface $container) use ($config) {
+        $import = new Gemeindeverzeichnis\Import\ZipCodes(
+            $container->get(Gemeindeverzeichnis\DatabaseConnection::class)
+        );
+        $import->setLogger($container->get(\Psr\Log\LoggerInterface::class));
+        return $import;
+    },
     Gemeindeverzeichnis\Import\Homepage::class => function(ContainerInterface $container) use ($config) {
         $import = new Gemeindeverzeichnis\Import\Homepage(
             $container->get(Gemeindeverzeichnis\DatabaseConnection::class)
