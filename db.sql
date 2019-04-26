@@ -181,7 +181,7 @@ ALTER TABLE `polling_station_human`
 -- Indexes for table `zip_codes`
 --
 ALTER TABLE `zip_codes`
-  ADD PRIMARY KEY (`municipality_key`);
+  ADD PRIMARY KEY (`municipality_key`, `zip`);
 
 --
 -- Constraints for dumped tables
