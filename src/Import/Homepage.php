@@ -71,7 +71,7 @@ class Homepage implements ImportInterface, LoggerAwareInterface
                 $stmt->execute();
                 $result = $stmt->get_result();
                 if ($result->num_rows == 1) {
-                    $key = $result->fetch_assoc()['key'];
+                    $key = $result->fetch_assoc()['municipality_key'];
                 }
                 $stmt->close();
                 if (!$key) {
