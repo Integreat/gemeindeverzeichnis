@@ -74,6 +74,6 @@ curl https://gvz.integreat-app.de/api/searchcounty/Ravensburg
 ```
 curl --header "Content-Type: application/json" \
 --request POST \
---data '{"key": "", "slug": "", "address_street": "", "address_zip": "", "address_city": "", "opening_hours": "", "email_default": "", "website_default": "", "email_poll": "", "website_poll": ""}' \
+--data '[{"key": "", "slug": "", "address_street": "", "address_zip": "", "address_city": "", "opening_hours": "", "email_default": "", "website_default": "", "email_poll": "", "website_poll": ""}]' \
 "https://gvz.integreat-app.de/api/update"
 ````
