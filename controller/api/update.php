@@ -19,6 +19,7 @@ if($config['allow_updates'] !== "1") {
  */
 $key = strip_tags($query->key);
 $slug = strip_tags($query->slug);
+$name = strip_tags($query->name);
 $address_street = strip_tags($query->address_street);
 $address_zip = strip_tags($query->address_zip);
 $address_city = strip_tags($query->address_city);
@@ -29,10 +30,10 @@ $email_poll = strip_tags($query->email_poll);
 $website_poll = strip_tags($query->website_poll);
 
 $stmt = $conn->prepare("INSERT INTO `polling_station_web_queue`
-(`key`, `slug`, `address_street`, `address_zip`, `address_city`, `opening_hours`, `email_default`, `website_default`, `email_poll`, `website_poll`) VALUES
-( ?   ,  ?    ,  ?              ,  ?           ,  ?            ,  ?             ,  ?             ,  ?               ,  ?          ,  ?            )");
+(`key`, `slug`, `name`, `address_street`, `address_zip`, `address_city`, `opening_hours`, `email_default`, `website_default`, `email_poll`, `website_poll`) VALUES
+( ?   ,  ?    ,  ?    ,  ?              ,  ?           ,  ?            ,  ?             ,  ?             ,  ?               ,  ?          ,  ?            )");
 $stmt->bind_param('ssssssssss',
- $key,  $slug , $address_street , $address_zip , $address_city , $opening_hours , $email_default , $website_default , $email_poll , $website_poll);
+ $key,  $slug , $name , $address_street , $address_zip , $address_city , $opening_hours , $email_default , $website_default , $email_poll , $website_poll);
 if($stmt->execute()) {
     $result = array("status" => "success");
 } else {
