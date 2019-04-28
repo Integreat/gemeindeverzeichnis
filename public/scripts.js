@@ -53,7 +53,8 @@ function details( key ) {
             "<tr><th scope='row'>Homepage</th><td>"+item['address']['website_default']+"</td></tr>" +
             "<tr><th scope='row'>L&auml;ngengrad</th><td>"+item['longitude']+"</td></tr>" +
             "<tr><th scope='row'>Breitengrad</th><td>"+item['latitude']+"</td></tr>" +
-            "<tr><th scope='row'>Bevölkerung</th><td>"+item['population']+"</td></tr>";
+            "<tr><th scope='row'>Bevölkerung</th><td>"+item['population']+"</td></tr>" +
+            "<tr><th scope='row'>Postleitzahlen</th><td>"+item['zip_codes'].join(',')+"</td></tr>";
         };
         searchhtml = searchhtml + "</table>";
         $("#result").html(searchhtml);
