@@ -27,7 +27,7 @@ $stmt->bind_param('s', $query);
 $stmt->execute();
 $res_polls = $stmt->get_result();
 $stmt->close();
-
+/*
 $polling_stations = array();
 $n = 0;
 while($row = $res_polls->fetch_assoc()) {
@@ -38,7 +38,7 @@ while($row = $res_polls->fetch_assoc()) {
     $polling_stations[$n]['city'] = $row['address_city'];
     $polling_stations[$n]['opening_hours'] = $row['opening_hours'];
     $n++;
-}
+}*/
 
 $result = array();
 $n = 0;
@@ -64,7 +64,7 @@ while($row = $res_mun->fetch_assoc()) {
     $result[$n]['address']['street'] = $row['address_street'];
     $result[$n]['address']['recipient'] = $row['address_recipient'];
     $result[$n]['address']['city'] = $row['address_city'];
-    $result[$n]['polling_stations'] = $polling_stations;
+    //$result[$n]['polling_stations'] = $polling_stations;
     $n++;
 }
 
