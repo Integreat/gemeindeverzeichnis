@@ -37,7 +37,7 @@ class ZipCodes implements ImportInterface, LoggerAwareInterface
 
     public function getPriority() : int
     {
-        return 500;
+        return 800;
     }
 
     public function import()

@@ -37,7 +37,7 @@ class Homepage implements ImportInterface, LoggerAwareInterface
 
     public function getPriority() : int
     {
-        return 800;
+        return 700;
     }
 
     public function import()
@@ -65,7 +65,7 @@ class Homepage implements ImportInterface, LoggerAwareInterface
                 }
                 $this->logger->info("Searching for " . $columns[0]);
                 $key = "";
-                $stmt = $conn->prepare("SELECT `key` FROM `municipalities_core` WHERE `address_zip`=?");
+                $stmt = $conn->prepare("SELECT `municipality_key` FROM `zip_codes` WHERE `zip`=?");
                 $zip = substr($columns[2], 0, 5);
                 $stmt->bind_param('s', $zip);
                 $stmt->execute();
