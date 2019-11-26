@@ -106,6 +106,7 @@ class Base implements ImportInterface, LoggerAwareInterface
                 ( ?   ,  ?    ,  ?      ,  ?     ,  ?        ,  ?    ,  ?         ,  ?)");
                 $stmt->bind_param("ssssssss",
                 $rs   ,  $name, $county , $state , $district , $type , $columns[1], $columns[0]);
+                $stmt->execute();
             } elseif ($columns[0] == '50') { //Gemeindeverband
                 // Nothing to do so far
             } elseif ($columns[0] == '60') { //Gemeinden
