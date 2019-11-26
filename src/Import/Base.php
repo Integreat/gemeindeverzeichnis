@@ -131,7 +131,7 @@ class Base implements ImportInterface, LoggerAwareInterface
                 $stmt = $conn->prepare("REPLACE INTO `municipalities_core`
                 (`key`, `parent_key`,`name`, `county`, `state`, `district`, `type`, `type_code`, `type_category`, `population`, `population_male`, `population_female`, `longitude` , `latitude`, `area`) VALUES
                 ( ?   ,  ?          , ?    ,  ?      ,  ?     ,  ?        ,  ?    ,  ?         ,  ?             ,  ?          ,  ?               ,  ?                 ,  ?          ,  ?        ,  ?    )");
-                $stmt->bind_param("ssssssssssssss",
+                $stmt->bind_param("sssssssssssssss",
                 $rs   , $parent_rs  ,$name , $county , $state , $district , $type , $columns[1], $columns[0]    , $pop        , $pop_male        , $pop_female        , $longitude  , $latitude,  $columns[8]);
                 if ($stmt->execute()) {
                     $stmt->close();
