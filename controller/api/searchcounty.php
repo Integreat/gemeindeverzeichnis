@@ -29,7 +29,7 @@ while($row = $res->fetch_assoc()) {
     $stmt->execute();
     $res_children = $stmt->get_result();
     $i = 0;
-    while($row_children = $res->fetch_assoc()) {
+    while($row_children = $res_children->fetch_assoc()) {
         $result[$n]['children'][$i]['key'] = $row_children['key'];
         $result[$n]['children'][$i]['name'] = $row_children['name'];
         $i++;
