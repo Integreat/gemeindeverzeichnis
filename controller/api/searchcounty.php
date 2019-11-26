@@ -7,7 +7,7 @@ $conn = Container::getInstance()->get(DatabaseConnection::class);
 
 $query = "%{$query}%";
 
-$sql = "SELECT `key`, `name`, `address_zip`, `county`, `state` FROM `municipalities` WHERE `name` LIKE ? AND type_code=40";
+$sql = "SELECT `key`, `name`, `address_zip`, `county`, `state` FROM `municipalities` WHERE `name` LIKE ? AND type_category=40";
 
 $stmt = $conn->prepare($sql);
 $stmt->bind_param('s', $query);
