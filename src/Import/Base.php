@@ -98,13 +98,14 @@ class Base implements ImportInterface, LoggerAwareInterface
             } elseif ($columns[0] == '40') { //Landkreise
                 $county = $columns[7];
                 $rs = $columns[2] . $columns[3] . $columns[4];
+                $parent_rs = $rs;
                 $name = $columns[7];
                 $type = $types[(int)$columns[1]];
                 $stmt = $conn->prepare("INSERT INTO `municipalities_core`
-                (`key`, `name`, `county`, `state`, `district`, `type`, `type_code`) VALUES
-                ( ?   ,  ?    ,  ?      ,  ?     ,  ?        ,  ?    ,  ?         )");
+                (`key`, `name`, `county`, `state`, `district`, `type`, `type_code`, `type_category`) VALUES
+                ( ?   ,  ?    ,  ?      ,  ?     ,  ?        ,  ?    ,  ?         ,  ?)");
                 $stmt->bind_param("sssssss",
-                $rs   ,  $name, $county , $state , $district , $type , $columns[1]);
+                $rs   ,  $name, $county , $state , $district , $type , $columns[1], $columns[0]);
             } elseif ($columns[0] == '50') { //Gemeindeverband
                 // Nothing to do so far
             } elseif ($columns[0] == '60') { //Gemeinden
@@ -128,10 +129,10 @@ class Base implements ImportInterface, LoggerAwareInterface
                 $longitude = str_replace(",", ".", $columns[14]);
                 $latitude = str_replace(",", ".", $columns[15]);
                 $stmt = $conn->prepare("REPLACE INTO `municipalities_core`
-                (`key`, `name`, `county`, `state`, `district`, `type`, `type_code`, `population`, `population_male`, `population_female`, `longitude` , `latitude`,   `area`) VALUES
-                ( ?   ,  ?    ,  ?      ,  ?     ,  ?        ,  ?    ,  ?         ,  ?          ,  ?               ,  ?                 ,  ?          ,  ?        ,    ?    )");
+                (`key`, `parent_key`,`name`, `county`, `state`, `district`, `type`, `type_code`, `type_category`, `population`, `population_male`, `population_female`, `longitude` , `latitude`,   `area`) VALUES
+                ( ?   ,  ?          , ?    ,  ?      ,  ?     ,  ?        ,  ?    ,  ?         ,  ?             ,  ?          ,  ?               ,  ?                 ,  ?          ,  ?        ,    ?    )");
                 $stmt->bind_param("sssssssssssss",
-                $rs   , $name , $county , $state , $district , $type , $columns[1], $pop        , $pop_male        , $pop_female        , $longitude  , $latitude, $columns[8]);
+                $rs   , $parent_rs  ,$name , $county , $state , $district , $type , $columns[1], $columns[0]    , $pop        , $pop_male        , $pop_female        , $longitude  , $latitude, $columns[8]);
                 if ($stmt->execute()) {
                     $stmt->close();
                     $stmt = $conn->prepare("REPLACE INTO zip_codes (`municipality_key`, `zip`) VALUES (?, ?)");

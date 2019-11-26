@@ -28,12 +28,14 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `municipalities_core` (
   `key` varchar(20) NOT NULL,
+  `parent_key` varchar(20) NULL,
   `name` text NOT NULL,
   `county` text NOT NULL,
   `state` enum('Baden-Württemberg','Bayern','Berlin','Brandenburg','Bremen','Hamburg','Hessen','Mecklenburg-Vorpommern','Niedersachsen','Nordrhein-Westfalen','Rheinland-Pfalz','Saarland','Sachsen','Sachsen-Anhalt','Schleswig-Holstein','Thüringen','') NOT NULL,
   `district` text NOT NULL,
   `type` enum('Markt','Kreisfreie Stadt','Stadtkreis','Stadt','Kreisangehörige Gemeinde','gemeindefreies Gebiet, bewohnt','gemeindefreies Gebiet, unbewohnt','große Kreisstadt','Landkreis','Kreis') NOT NULL,
   `type_code` int(2) NOT NULL,
+  `type_category` int(2) NOT NULL,
   `population` int(11) NULL,
   `population_male` int(11) NULL,
   `population_female` int(11) NULL,
