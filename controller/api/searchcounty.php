@@ -11,7 +11,7 @@ if( is_numeric($query) ) {
   $stmt->bind_param('i', $query);
 } else {
   $query = "%{$query}%";
-  $sql = "SELECT `key`, `name`, `address_zip`, `county`, `type`, state` FROM `municipalities` WHERE `name` LIKE ? AND type_category=40";
+  $sql = "SELECT `key`, `name`, `address_zip`, `county`, `type`, `state` FROM `municipalities` WHERE `name` LIKE ? AND type_category=40";
   $stmt = $conn->prepare($sql);
   $stmt->bind_param('s', $query);
 }
