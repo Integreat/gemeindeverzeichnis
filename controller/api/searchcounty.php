@@ -24,7 +24,7 @@ while($row = $res->fetch_assoc()) {
     $result[$n]['key'] = $row['key'];
     $result[$n]['name'] = $row['name'];
     $result[$n]['state'] = $row['state'];
-    $result[$n]['type'] = $row['type']
+    $result[$n]['type'] = $row['type'];
 
     $sql = "SELECT `key`, `name`, `address_zip`, `county`, `type`, `state` FROM `municipalities` WHERE `parent_key`=? AND type_category=60";
 
