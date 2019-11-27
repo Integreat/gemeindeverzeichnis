@@ -25,4 +25,4 @@ while($row = $res->fetch_assoc()) {
 }
 
 header("Content-Type: application/json");
-echo json_encode($result, JSON_UNESCAPED_UNICODE);
+echo json_encode($result);
