@@ -5,12 +5,16 @@ use Integreat\Gemeindeverzeichnis\DatabaseConnection;
 
 $conn = Container::getInstance()->get(DatabaseConnection::class);
 
-$query = "%{$query}%";
-
-$sql = "SELECT `key`, `name`, `address_zip`, `county`, `state` FROM `municipalities` WHERE `name` LIKE ? AND type_category=40";
-
-$stmt = $conn->prepare($sql);
-$stmt->bind_param('s', $query);
+if( is_numeric($query) ) {
+  $sql = "SELECT `key`, `name`, `address_zip`, `county`, `state` FROM `municipalities` WHERE `key`=? and type_category=40";
+  $stmt = $conn->prepare($sql);
+  $stmt->bind_param('i', $query);
+} else {
+  $query = "%{$query}%";
+  $sql = "SELECT `key`, `name`, `address_zip`, `county`, `state` FROM `municipalities` WHERE `name` LIKE ? AND type_category=40";
+  $stmt = $conn->prepare($sql);
+  $stmt->bind_param('s', $query);
+}
 $stmt->execute();
 $res = $stmt->get_result();
 
